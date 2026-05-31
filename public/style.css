@@ -108,6 +108,9 @@ body {
   display: flex;
   margin-top: 56px;
   min-height: calc(100vh - 56px);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .sidebar {
@@ -115,10 +118,10 @@ body {
   padding: 24px 0;
   background: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
-  position: fixed;
-  left: 0;
+  position: sticky;
   top: 56px;
-  bottom: 0;
+  height: fit-content;
+  max-height: calc(100vh - 56px);
   overflow-y: auto;
 }
 
@@ -148,7 +151,6 @@ body {
 
 .main {
   flex: 1;
-  margin-left: 240px;
   padding: 48px;
   max-width: 900px;
 }
