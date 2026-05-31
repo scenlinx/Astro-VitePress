@@ -380,7 +380,7 @@ body.home-page {
 
 .toc-link:hover {
   color: var(--text-color);
-  background: var(--bg-color);
+  background: var(--sidebar-bg);
 }
 
 .toc-link.active {
