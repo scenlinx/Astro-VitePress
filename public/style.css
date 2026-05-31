@@ -78,6 +78,7 @@ body.home-page {
 .nav-links {
   display: flex;
   gap: 16px;
+  margin-left: auto;
 }
 
 .nav-link {
