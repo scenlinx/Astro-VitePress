@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://docs.panws.top/favicon.svg" width="80" alt="Astro-VitePress Logo" />
+  <img src="./public/favicon.svg" width="80" alt="Astro-VitePress Logo" />
 </p>
 
 <h1 align="center">Astro-VitePress</h1>
