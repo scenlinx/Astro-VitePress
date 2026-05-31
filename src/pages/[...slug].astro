@@ -3,31 +3,34 @@ import MainLayout from '../layouts/MainLayout.astro';
 import { navConfig } from '../config/site';
 
 export async function getStaticPaths() {
-  const docs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
-  return docs
-    .filter(([p]) => {
-      const slug = p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
-      return slug !== 'index';
-    })
-    .map(([path, mod]) => {
-      const slug = path.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
-      return { params: { slug }, props: { mod } };
-    });
+  const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
+  const docsGlob = import.meta.glob('/docs/**/*.md');
+  const entries = Object.entries(docsGlob);
+  const allMeta = [];
+  const results = [];
+
+  for (const [path, loader] of entries) {
+    const mod = await loader();
+    const slug = cleanSlug(path);
+    allMeta.push({ path, slug, frontmatter: mod.frontmatter });
+    if (slug !== 'index') {
+      results.push({ params: { slug }, props: { mod, allMeta } });
+    }
+  }
+  return results;
 }
 
-const { mod } = Astro.props;
+const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
+const { mod, allMeta } = Astro.props;
 const { Content, frontmatter } = mod;
 const segments = Astro.params.slug.split('/');
 const currentFolder = segments[0];
 
-const allDocs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
-const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
-
 const navItems = navConfig.map(item => {
   if (item.type === 'folder') {
-    const pages = allDocs.filter(([p]) => p.startsWith(`/docs/${item.id}/`));
-    const first = pages.sort((a, b) => (a[1].frontmatter?.order ?? 999) - (b[1].frontmatter?.order ?? 999))[0];
-    return { text: item.text, link: `/${cleanSlug(first?.[0] || '')}` };
+    const pages = allMeta.filter(m => m.path.startsWith(`/docs/${item.id}/`));
+    const first = pages.sort((a, b) => (a.frontmatter?.order ?? 999) - (b.frontmatter?.order ?? 999))[0];
+    return { text: item.text, link: `/${cleanSlug(first?.path || '')}` };
   }
   return { text: item.text, link: item.id === '/' ? '/' : `/${item.id}` };
 });
@@ -36,31 +39,35 @@ const currentNav = navConfig.find(item =>
   item.type === 'folder' ? item.id === currentFolder : item.id === currentFolder
 );
 
-const toSidebar = (p, m) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}`, order: m.frontmatter?.order ?? 999 });
+const toSidebar = m => ({
+  text: m.frontmatter?.title || '',
+  link: `/${m.slug}`,
+  order: m.frontmatter?.order ?? 999
+});
 const sortSidebar = (a, b) => a.order - b.order;
 
 const sidebarItems = currentNav?.type === 'folder'
-  ? allDocs
-      .filter(([p]) => p.startsWith(`/docs/${currentFolder}/`))
-      .map(([p, m]) => toSidebar(p, m))
+  ? allMeta
+      .filter(m => m.path.startsWith(`/docs/${currentFolder}/`))
+      .map(toSidebar)
       .sort(sortSidebar)
-  : allDocs
-      .filter(([p]) => p.split('/')[2].indexOf('.') !== -1 && !p.endsWith('/index.md'))
-      .map(([p, m]) => toSidebar(p, m))
+  : allMeta
+      .filter(m => m.path.split('/')[2]?.indexOf('.') !== -1 && !m.path.endsWith('/index.md'))
+      .map(toSidebar)
       .sort(sortSidebar);
 
 const allPages = [];
 navConfig.forEach(item => {
   if (item.type === 'folder') {
-    const pages = allDocs
-      .filter(([p]) => p.startsWith(`/docs/${item.id}/`))
-      .map(([p, m]) => toSidebar(p, m))
+    const pages = allMeta
+      .filter(m => m.path.startsWith(`/docs/${item.id}/`))
+      .map(toSidebar)
       .sort(sortSidebar);
     allPages.push(...pages);
   } else if (item.type === 'page' && item.id !== '/') {
-    const pages = allDocs
-      .filter(([p]) => p.replace('/docs/', '').replace(/\.md$/, '') === item.id)
-      .map(([p, m]) => toSidebar(p, m));
+    const pages = allMeta
+      .filter(m => m.slug === item.id)
+      .map(toSidebar);
     allPages.push(...pages);
   }
 });

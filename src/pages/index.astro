@@ -2,7 +2,11 @@
 import HomeLayout from '../layouts/HomeLayout.astro';
 import { navConfig } from '../config/site';
 
-const allDocs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
+const docsGlob = import.meta.glob('/docs/**/*.md');
+const allDocs = [];
+for (const [path, loader] of Object.entries(docsGlob)) {
+  allDocs.push([path, await loader()]);
+}
 const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
 
 const navItems = navConfig.map(item => {
