@@ -468,3 +468,9 @@ pre code {
     font-size: 32px;
   }
 }
+
+@media (max-width: 1024px) {
+  .sidebar-right {
+    display: none;
+  }
+}

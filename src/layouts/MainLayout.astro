@@ -9,6 +9,18 @@ interface Props {
 const { title: propTitle, frontmatter } = Astro.props;
 const title = propTitle || frontmatter?.title || 'VitePress';
 const currentPath = Astro.url.pathname;
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": "VitePress 文档 - Vue 驱动的静态网站生成器",
+  "inLanguage": "zh-CN",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "VitePress",
+    "url": "https://vitepress.vuejs.org"
+  }
+});
 ---
 
 <!DOCTYPE html>
@@ -24,12 +36,16 @@ const currentPath = Astro.url.pathname;
   <meta property="og:title" content={`${title} | VitePress`}>
   <meta property="og:description" content="VitePress 文档 - Vue 驱动的静态网站生成器">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vitepress.vuejs.org">
+  <meta property="og:url" content={`https://vitepress.vuejs.org${currentPath}`}>
+  <link rel="canonical" href={`https://vitepress.vuejs.org${currentPath}`}>
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content={`${title} | VitePress`}>
   <meta name="twitter:description" content="VitePress 文档 - Vue 驱动的静态网站生成器">
+  
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={jsonLd}></script>
   
   <title>{title} | VitePress</title>
   <link rel="stylesheet" href="/style.css">
@@ -116,9 +132,9 @@ const currentPath = Astro.url.pathname;
       
       if (headings.length === 0 || !tocList) return;
       
-      headings.forEach((heading, index) => {
-        const id = `heading-${index}`;
-        heading.id = id;
+      headings.forEach(heading => {
+        const id = heading.id || heading.textContent?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\u4e00-\u9fff-]/g, '');
+        if (!heading.id) heading.id = id;
         
         const li = document.createElement('li');
         const a = document.createElement('a');

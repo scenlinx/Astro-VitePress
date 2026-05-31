@@ -6,6 +6,14 @@ interface Props {
 
 const { title, navItems = [] } = Astro.props;
 const currentPath = Astro.url.pathname;
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "VitePress",
+  "url": "https://vitepress.vuejs.org",
+  "description": "VitePress 是 Vue 驱动的静态网站生成器",
+  "inLanguage": "zh-CN"
+});
 ---
 
 <!DOCTYPE html>
@@ -22,11 +30,15 @@ const currentPath = Astro.url.pathname;
   <meta property="og:description" content="VitePress 是 Vue 驱动的静态网站生成器，为构建快速、现代化的文档网站而设计。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vitepress.vuejs.org">
+  <link rel="canonical" href="https://vitepress.vuejs.org">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VitePress">
   <meta name="twitter:description" content="VitePress 是 Vue 驱动的静态网站生成器，为构建快速、现代化的文档网站而设计。">
+  
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={jsonLd}></script>
   
   <title>VitePress</title>
   <link rel="stylesheet" href="/style.css">
