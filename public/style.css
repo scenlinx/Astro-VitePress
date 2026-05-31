@@ -126,6 +126,21 @@ body.home-page {
   color: var(--primary-color);
 }
 
+.nav-gh-link {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  color: var(--text-color-light);
+  border-radius: 6px;
+  transition: all 0.2s;
+  margin-left: 8px;
+}
+
+.nav-gh-link:hover {
+  color: var(--text-color);
+  background: var(--sidebar-bg);
+}
+
 .theme-toggle {
   background: none;
   border: none;

@@ -1,19 +1,19 @@
 ---
-title: VitePress
-description: Vue 驱动的静态网站生成器
-heroTitle: VitePress
-heroDesc: Vue 驱动的静态网站生成器
+title: Astro-VitePress
+description: 基于 Astro 的 VitePress 复刻版文档网站生成器
+heroTitle: Astro-VitePress
+heroDesc: 基于 Astro 的 VitePress 复刻版
 primaryAction: 快速开始
 primaryActionLink: /guide/quickstart
 secondaryAction: 在 GitHub 上查看
-secondaryActionLink: https://github.com/vuejs/vitepress
+secondaryActionLink: https://github.com/scenlinx/astro-vitepress
 features:
-  - title: 基于 Vite
-    desc: 闪电般快速的热更新，无论项目大小始终保持快速。
-  - title: Vue 驱动
-    desc: 享受 Vue 3 模板语法和组合式 API 的全部能力。
+  - title: 基于 Astro 5
+    desc: 利用 Astro 的岛屿架构，输出纯静态 HTML，加载极速。
   - title: Markdown 优先
-    desc: 专注于内容，内置支持 Vue 组件的 Markdown 扩展。
+    desc: 专注于内容创作，Markdown 文件自动生成完整文档站点。
+  - title: 零配置
+    desc: 将 Markdown 放入 docs/ 目录，自动处理导航、侧边栏和分页。
 ---
 
-这里是 VitePress 的首页介绍内容，你可以通过 Markdown 自由编辑。
+Astro-VitePress 是 Astro 驱动的静态文档网站生成器，你可以通过 Markdown 自由编辑。
