@@ -3,16 +3,29 @@ import HomeLayout from '../layouts/HomeLayout.astro';
 import { folderNames, folderOrder } from '../config/site';
 
 const allDocs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
-const folders = [...new Set(allDocs.map(([p]) => p.split('/')[2]))].sort((a, b) => (folderOrder[a] || 99) - (folderOrder[b] || 99));
-const navItems = folders.map(f => {
+const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
+
+const folders = [...new Set(allDocs.map(([p]) => {
+  const seg = p.split('/')[2];
+  return seg.indexOf('.') === -1 ? seg : null;
+}).filter(Boolean))].sort((a, b) => (folderOrder[a] || 99) - (folderOrder[b] || 99));
+
+const folderNav = folders.map(f => {
   const first = allDocs.find(([p]) => p.startsWith(`/docs/${f}/`));
-  const slug = first[0].replace('/docs/', '').replace(/\.md$/, '');
-  return { text: folderNames[f] || f, link: `/${slug}` };
+  return { text: folderNames[f] || f, link: `/${cleanSlug(first[0])}` };
 });
+
+const pageNav = allDocs.filter(([p]) => p.split('/')[2].indexOf('.') !== -1 && !p.endsWith('/index.md'))
+  .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }));
+
+const navItems = [...folderNav, ...pageNav];
+
+const homeEntry = allDocs.find(([p]) => p === '/docs/index.md');
+const { frontmatter: homeFm } = homeEntry[1];
 ---
 
 <HomeLayout 
-  title="VitePress" 
+  title={homeFm.title || 'VitePress'} 
   navItems={navItems}
 >
   <div class="home">
@@ -22,27 +35,21 @@ const navItems = folders.map(f => {
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <h1>VitePress</h1>
-      <p>Vue 驱动的静态网站生成器</p>
+      <h1>{homeFm.heroTitle}</h1>
+      <p>{homeFm.heroDesc}</p>
       <div class="actions">
-        <a href={navItems.find(n => n.text === '指南')?.link || '/guide/quickstart'} class="btn primary">快速开始</a>
-        <a href="https://github.com/vuejs/vitepress" target="_blank" class="btn">在 GitHub 上查看</a>
+        <a href={homeFm.primaryActionLink || '/guide/quickstart'} class="btn primary">{homeFm.primaryAction}</a>
+        <a href={homeFm.secondaryActionLink || '#'} target="_blank" class="btn">{homeFm.secondaryAction}</a>
       </div>
     </div>
     
     <div class="features">
-      <div class="feature">
-        <h3>基于 Vite</h3>
-        <p>闪电般快速的热更新，无论项目大小始终保持快速。</p>
-      </div>
-      <div class="feature">
-        <h3>Vue 驱动</h3>
-        <p>享受 Vue 3 模板语法和组合式 API 的全部能力。</p>
-      </div>
-      <div class="feature">
-        <h3>Markdown 优先</h3>
-        <p>专注于内容，内置支持 Vue 组件的 Markdown 扩展。</p>
-      </div>
+      {homeFm.features?.map(f => (
+        <div class="feature">
+          <h3>{f.title}</h3>
+          <p>{f.desc}</p>
+        </div>
+      ))}
     </div>
   </div>
 </HomeLayout>

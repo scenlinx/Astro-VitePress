@@ -4,10 +4,15 @@ import { folderNames, folderOrder } from '../config/site';
 
 export async function getStaticPaths() {
   const docs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
-  return docs.map(([path, mod]) => {
-    const slug = path.replace('/docs/', '').replace(/\.md$/, '');
-    return { params: { slug }, props: { mod } };
-  });
+  return docs
+    .filter(([p]) => {
+      const slug = p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
+      return slug !== 'index';
+    })
+    .map(([path, mod]) => {
+      const slug = path.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
+      return { params: { slug }, props: { mod } };
+    });
 }
 
 const { mod } = Astro.props;
@@ -16,19 +21,31 @@ const segments = Astro.params.slug.split('/');
 const currentFolder = segments[0];
 
 const allDocs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
-const folders = [...new Set(allDocs.map(([p]) => p.split('/')[2]))].sort((a, b) => (folderOrder[a] || 99) - (folderOrder[b] || 99));
-const navItems = folders.map(f => {
+const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
+
+const isFolder = name => allDocs.some(([p]) => p.startsWith(`/docs/${name}/`));
+const folders = [...new Set(allDocs.map(([p]) => {
+  const seg = p.split('/')[2];
+  return seg.indexOf('.') === -1 ? seg : null;
+}).filter(Boolean))].sort((a, b) => (folderOrder[a] || 99) - (folderOrder[b] || 99));
+
+const folderNav = folders.map(f => {
   const first = allDocs.find(([p]) => p.startsWith(`/docs/${f}/`));
-  const slug = first[0].replace('/docs/', '').replace(/\.md$/, '');
-  return { text: folderNames[f] || f, link: `/${slug}` };
+  return { text: folderNames[f] || f, link: `/${cleanSlug(first[0])}` };
 });
 
-const sidebarItems = allDocs
-  .filter(([p]) => p.startsWith(`/docs/${currentFolder}/`))
-  .map(([p, m]) => {
-    const slug = p.replace('/docs/', '').replace(/\.md$/, '');
-    return { text: m.frontmatter?.title || '', link: `/${slug}` };
-  });
+const pageNav = allDocs.filter(([p]) => p.split('/')[2].indexOf('.') !== -1 && !p.endsWith('/index.md'))
+  .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }));
+
+const navItems = [...folderNav, ...pageNav];
+
+const sidebarItems = isFolder(currentFolder)
+  ? allDocs
+      .filter(([p]) => p.startsWith(`/docs/${currentFolder}/`))
+      .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }))
+  : allDocs
+      .filter(([p]) => p.split('/')[2].indexOf('.') !== -1 && !p.endsWith('/index.md'))
+      .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }));
 ---
 
 <MainLayout title={frontmatter.title} frontmatter={frontmatter} navItems={navItems} sidebarItems={sidebarItems}>
