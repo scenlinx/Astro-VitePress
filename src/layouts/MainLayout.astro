@@ -222,9 +222,23 @@ const currentPath = Astro.url.pathname;
       // Sub-nav sidebar trigger
       const sidebar = document.querySelector('.sidebar-left');
       const subNavLeft = document.querySelector('.sub-nav-left');
+      const sidebarOverlay = document.querySelector('.sidebar-overlay');
+
+      function openSidebar() {
+        sidebar?.classList.add('open');
+        sidebarOverlay?.classList.add('open');
+      }
+
+      function closeSidebar() {
+        sidebar?.classList.remove('open');
+        sidebarOverlay?.classList.remove('open');
+      }
+
       subNavLeft?.addEventListener('click', () => {
-        sidebar?.classList.toggle('open');
+        sidebar?.classList.contains('open') ? closeSidebar() : openSidebar();
       });
+
+      sidebarOverlay?.addEventListener('click', closeSidebar);
     });
   </script>
 </body>

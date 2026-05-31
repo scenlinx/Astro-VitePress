@@ -54,10 +54,10 @@
   --main-padding-mobile: 24px;
 
   /* Z-index */
-  --z-nav: 100;
+  --z-nav: 90;
   --z-drawer: 100;
   --z-sidebar: 99;
-  --z-overlay: 90;
+  --z-overlay: 98;
   --z-sub-nav: 50;
   --z-negative: -1;
 
@@ -737,7 +737,7 @@ pre code {
 .nav-drawer {
   display: none;
   position: fixed;
-  top: var(--nav-height-mobile);
+  top: 0;
   right: 0;
   bottom: 0;
   width: 50%;
@@ -1144,10 +1144,10 @@ pre code {
   
   .sidebar-left {
     position: fixed;
-    top: calc(var(--nav-height-mobile) + var(--sub-nav-height));
+    top: 0;
     left: 0;
     width: 50%;
-    height: calc(100vh - var(--nav-height-mobile) - var(--sub-nav-height));
+    height: 100vh;
     background: var(--bg-color);
     z-index: var(--z-sidebar);
     border-right: 1px solid var(--border-color);

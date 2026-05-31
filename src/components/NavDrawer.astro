@@ -38,7 +38,13 @@ const { navItems, currentPath } = Astro.props;
 <script>
   const hamburgerNav = document.querySelector('.hamburger-nav');
   const navDrawer = document.querySelector('.nav-drawer');
+  const sidebarOverlay = document.querySelector('.sidebar-overlay');
   hamburgerNav?.addEventListener('click', () => {
     navDrawer?.classList.toggle('open');
+    sidebarOverlay?.classList.toggle('open', navDrawer?.classList.contains('open'));
+  });
+  sidebarOverlay?.addEventListener('click', () => {
+    navDrawer?.classList.remove('open');
+    sidebarOverlay?.classList.remove('open');
   });
 </script>
