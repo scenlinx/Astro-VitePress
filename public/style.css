@@ -230,6 +230,10 @@ body.home-page {
 .home-main {
   max-width: 1280px;
   margin: 0 auto;
+  padding-top: 56px;
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
 }
 
 .home {
@@ -406,6 +410,7 @@ pre code {
   border-top: 1px solid var(--border-color);
   color: var(--text-color-light);
   font-size: 14px;
+  margin-top: auto;
 }
 
 @media (max-width: 768px) {
