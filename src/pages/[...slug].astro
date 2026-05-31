@@ -48,7 +48,21 @@ const sidebarItems = currentNav?.type === 'folder'
       .map(([p, m]) => toSidebar(p, m))
       .sort(sortSidebar);
 
-const allPages = sidebarItems;
+const allPages = [];
+navConfig.forEach(item => {
+  if (item.type === 'folder') {
+    const pages = allDocs
+      .filter(([p]) => p.startsWith(`/docs/${item.id}/`))
+      .map(([p, m]) => toSidebar(p, m))
+      .sort(sortSidebar);
+    allPages.push(...pages);
+  } else if (item.type === 'page' && item.id !== '/') {
+    const pages = allDocs
+      .filter(([p]) => p.replace('/docs/', '').replace(/\.md$/, '') === item.id)
+      .map(([p, m]) => toSidebar(p, m));
+    allPages.push(...pages);
+  }
+});
 
 const currentIdx = allPages.findIndex(item => item.link === Astro.url.pathname.replace(/\/$/, ''));
 const prev = currentIdx > 0 ? allPages[currentIdx - 1] : null;
