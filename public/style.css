@@ -10,6 +10,15 @@
   --font-mono: 'Fira Code', 'Fira Mono', monospace;
 }
 
+.dark {
+  --text-color: #e2e8f0;
+  --text-color-light: #94a3b8;
+  --bg-color: #11151c;
+  --sidebar-bg: #0d101a;
+  --border-color: #232a33;
+  --code-bg: #1e293b;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -43,7 +52,7 @@ body.home-page {
   top: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: 64px;
   z-index: 100;
   border-bottom: 1px solid var(--border-color);
 }
@@ -144,9 +153,9 @@ body.home-page {
   width: 240px;
   padding: 24px 0;
   position: sticky;
-  top: 56px;
+  top: 64px;
   height: fit-content;
-  max-height: calc(100vh - 56px);
+  max-height: calc(100vh - 64px);
   overflow-y: auto;
 }
 
