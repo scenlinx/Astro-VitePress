@@ -153,6 +153,7 @@ body.home-page {
   margin-left: auto;
   margin-right: auto;
   padding: 0 24px;
+  min-height: calc(100vh - 64px);
 }
 
 .sidebar {
@@ -163,6 +164,7 @@ body.home-page {
   height: fit-content;
   max-height: calc(100vh - 64px);
   overflow-y: auto;
+  align-self: flex-start;
 }
 
 .sidebar-left {
