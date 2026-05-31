@@ -1,0 +1,18 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+export async function getStaticPaths() {
+  const docs = Object.entries(import.meta.glob('/docs/*.md', { eager: true }));
+  return docs.map(([path, mod]) => ({
+    params: { slug: path.split('/').pop().replace(/\.md$/, '') },
+    props: { mod },
+  }));
+}
+
+const { mod } = Astro.props;
+const { Content, frontmatter } = mod;
+---
+
+<MainLayout title={frontmatter.title} frontmatter={frontmatter}>
+  <Content />
+</MainLayout>

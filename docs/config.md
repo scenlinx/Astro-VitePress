@@ -1,6 +1,8 @@
 ---
-layout: ../layouts/MainLayout.astro
 title: 配置说明
+description: 了解如何配置 VitePress 网站，包括主题配置、Frontmatter 和 Markdown 选项
+keywords: VitePress, 配置, 主题, Frontmatter, Markdown, 静态网站
+date: '2026-05-31'
 ---
 
 # 配置
@@ -15,10 +17,10 @@ title: 配置说明
 export default {
   // 网站标题
   title: '我的网站',
-  
+
   // 网站描述（用于 SEO）
   description: '一个 VitePress 网站',
-  
+
   // 主题配置
   themeConfig: {
     nav: [
