@@ -1148,6 +1148,7 @@ pre code {
     left: 0;
     width: 50%;
     height: 100vh;
+    max-height: none;
     background: var(--bg-color);
     z-index: var(--z-sidebar);
     border-right: 1px solid var(--border-color);
