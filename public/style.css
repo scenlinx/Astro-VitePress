@@ -136,7 +136,6 @@ body {
 
 .sidebar-left {
   background: var(--sidebar-bg);
-  border-right: 1px solid var(--border-color);
 }
 
 .sidebar-right {
