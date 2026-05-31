@@ -1,40 +1,40 @@
 ---
 layout: ../layouts/MainLayout.astro
-title: Configuration
+title: 配置说明
 ---
 
-# Configuration
+# 配置
 
-Learn how to configure your VitePress site.
+了解如何配置你的 VitePress 网站。
 
-## Site Config
+## 网站配置
 
-The main configuration file is `vitepress.config.js`:
+主要配置文件是 `vitepress.config.js`：
 
 ```js
 export default {
-  // Site title
-  title: 'My Site',
+  // 网站标题
+  title: '我的网站',
   
-  // Site description for SEO
-  description: 'A VitePress site',
+  // 网站描述（用于 SEO）
+  description: '一个 VitePress 网站',
   
-  // Theme configuration
+  // 主题配置
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/guide' }
+      { text: '首页', link: '/' },
+      { text: '指南', link: '/guide' }
     ],
     sidebar: [
-      { text: 'Getting Started', link: '/guide' }
+      { text: '快速开始', link: '/guide' }
     ]
   }
 }
 ```
 
-## Theme Config
+## 主题配置
 
-Customize the appearance of your site:
+自定义网站外观：
 
 ```js
 themeConfig: {
@@ -50,19 +50,19 @@ themeConfig: {
 
 ## Frontmatter
 
-Configure individual pages with frontmatter:
+使用 frontmatter 配置单个页面：
 
 ```yaml
 ---
-title: Page Title
-description: Page description
+title: 页面标题
+description: 页面描述
 sidebar: false
 ---
 ```
 
-## Markdown Options
+## Markdown 选项
 
-Configure markdown parsing:
+配置 markdown 解析：
 
 ```js
 markdown: {

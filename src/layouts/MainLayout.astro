@@ -61,7 +61,6 @@ const currentPath = Astro.url.pathname;
   <div class="container">
     <aside class="sidebar sidebar-left">
       <div class="sidebar-header">
-        <span>Menu</span>
       </div>
       <div class="sidebar-links">
         {sidebarItems.map(item => (
@@ -79,13 +78,13 @@ const currentPath = Astro.url.pathname;
       <slot />
       
       <footer class="footer">
-        <p>Powered by VitePress</p>
+        <p>由 VitePress 驱动</p>
       </footer>
     </main>
 
     <aside class="sidebar sidebar-right">
       <div class="sidebar-header">
-        <span>On this page</span>
+        <span>文章目录</span>
       </div>
       <nav class="toc-links" id="toc-nav">
         <ul class="toc-list"></ul>

@@ -1,54 +1,54 @@
 ---
 layout: ../layouts/MainLayout.astro
-title: Guide
+title: 指南
 ---
 
-# Getting Started
+# 快速开始
 
-Welcome to VitePress! This guide will help you get started with building your documentation site.
+欢迎使用 VitePress！本指南将帮助你开始构建文档网站。
 
-## Installation
+## 安装
 
-To get started, you need to install VitePress:
+首先，你需要安装 VitePress：
 
 ```bash
 npm install -D vitepress
 ```
 
-## Quick Start
+## 快速启动
 
-Create a markdown file and start developing:
+创建一个 markdown 文件并开始开发：
 
 ```bash
 npx vitepress dev
 ```
 
-## Features
+## 功能特性
 
-VitePress comes with many features out of the box:
+VitePress 内置了许多功能：
 
-- **Fast**: Powered by Vite for lightning-fast development
-- **Vue-Powered**: Use Vue components in your markdown
-- **Markdown Extensions**: Table of contents, syntax highlighting, and more
-- **Theming**: Customizable themes with dark mode support
-- **SEO Friendly**: Built-in SEO optimization
+- **快速**: 基于 Vite，开发体验闪电般快速
+- **Vue 驱动**: 在 markdown 中使用 Vue 组件
+- **Markdown 扩展**: 支持目录、语法高亮等
+- **主题定制**: 支持暗色模式的可定制主题
+- **SEO 友好**: 内置 SEO 优化
 
-## Configuration
+## 配置
 
-Create a `vitepress.config.js` file to configure your site:
+创建 `vitepress.config.js` 文件来配置你的网站：
 
 ```js
 export default {
-  title: 'My Site',
-  description: 'A VitePress site'
+  title: '我的网站',
+  description: '一个 VitePress 网站'
 }
 ```
 
-## Next Steps
+## 下一步
 
-Now that you have VitePress set up, you can:
+现在你已经设置好 VitePress，可以：
 
-1. Add more pages
-2. Customize the theme
-3. Add navigation
-4. Deploy your site
+1. 添加更多页面
+2. 自定义主题
+3. 添加导航
+4. 部署你的网站
