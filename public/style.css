@@ -494,6 +494,7 @@ body.home-page {
   padding: var(--pad-2xl);
   border-radius: var(--radius-lg);
   background: var(--sidebar-bg);
+  text-align: left;
 }
 
 .feature h3 {
