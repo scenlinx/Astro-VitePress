@@ -254,6 +254,11 @@ body.home-page {
   margin-left: var(--margin-sm);
 }
 
+.nav-gh-link svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
 .nav-gh-link:hover {
   color: var(--text-color);
   background: var(--sidebar-bg);
@@ -263,6 +268,9 @@ body.home-page {
   background: none;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--pad-md);
   border-radius: var(--radius-sm);
   color: var(--text-color-light);
