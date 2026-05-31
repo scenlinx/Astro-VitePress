@@ -37,6 +37,10 @@ body.home-page {
   background: var(--bg-color);
 }
 
+.home-page .nav {
+  border-bottom: none;
+}
+
 .sidebar-bg {
   position: fixed;
   left: 0;
