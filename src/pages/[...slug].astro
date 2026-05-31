@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import { folderNames, folderOrder } from '../config/site';
+import { navConfig } from '../config/site';
 
 export async function getStaticPaths() {
   const docs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
@@ -23,23 +23,19 @@ const currentFolder = segments[0];
 const allDocs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
 const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
 
-const isFolder = name => allDocs.some(([p]) => p.startsWith(`/docs/${name}/`));
-const folders = [...new Set(allDocs.map(([p]) => {
-  const seg = p.split('/')[2];
-  return seg.indexOf('.') === -1 ? seg : null;
-}).filter(Boolean))].sort((a, b) => (folderOrder[a] || 99) - (folderOrder[b] || 99));
-
-const folderNav = folders.map(f => {
-  const first = allDocs.find(([p]) => p.startsWith(`/docs/${f}/`));
-  return { text: folderNames[f] || f, link: `/${cleanSlug(first[0])}` };
+const navItems = navConfig.map(item => {
+  if (item.type === 'folder') {
+    const first = allDocs.find(([p]) => p.startsWith(`/docs/${item.id}/`));
+    return { text: item.text, link: `/${cleanSlug(first?.[0] || '')}` };
+  }
+  return { text: item.text, link: item.id === '/' ? '/' : `/${item.id}` };
 });
 
-const pageNav = allDocs.filter(([p]) => p.split('/')[2].indexOf('.') !== -1 && !p.endsWith('/index.md'))
-  .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }));
+const currentNav = navConfig.find(item =>
+  item.type === 'folder' ? item.id === currentFolder : item.id === currentFolder
+);
 
-const navItems = [...folderNav, ...pageNav];
-
-const sidebarItems = isFolder(currentFolder)
+const sidebarItems = currentNav?.type === 'folder'
   ? allDocs
       .filter(([p]) => p.startsWith(`/docs/${currentFolder}/`))
       .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }))
