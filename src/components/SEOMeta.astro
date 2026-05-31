@@ -25,7 +25,7 @@ const {
 const ogTitle = `${title} | Astro-VitePress`;
 
 // 社交分享图：使用在线生成的文字卡片图作为默认 og:image
-const ogImage = 'https://docs.panws.top/og-image.png';
+const ogImage = 'https://docs.panws.top/og-image.svg';
 
 let jsonLd: Record<string, any> = {
   "@context": "https://schema.org",
@@ -57,7 +57,7 @@ if (jsonLdType === 'WebSite') {
       "url": "https://docs.panws.top",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://github.com/scenlinx/astro-vitepress/logo.svg"
+        "url": "https://docs.panws.top/favicon.svg"
       }
     },
     "datePublished": date || new Date().toISOString(),
@@ -86,8 +86,7 @@ const jsonLdStr = JSON.stringify(jsonLd);
 <meta property="og:site_name" content="Astro-VitePress">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content={ogImage}>
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/svg+xml">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
