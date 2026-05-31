@@ -581,6 +581,14 @@ pre code {
   color: inherit;
 }
 
+.page-date {
+  font-size: var(--font-size-base);
+  color: var(--text-color);
+  margin-top: var(--margin-4xl);
+  margin-bottom: var(--margin-lg);
+  font-weight: var(--font-weight-medium);
+}
+
 .prev-next {
   display: flex;
   justify-content: space-between;

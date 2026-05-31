@@ -138,6 +138,10 @@ const jsonLd = JSON.stringify({
     <main class="main">
       <slot />
       
+      {frontmatter?.date && (
+        <p class="page-date">更新于 {frontmatter.date}</p>
+      )}
+      
       <div class="prev-next">
         <div class="prev-next-item">
           {prev && (
