@@ -47,8 +47,14 @@ const sidebarItems = currentNav?.type === 'folder'
       .filter(([p]) => p.split('/')[2].indexOf('.') !== -1 && !p.endsWith('/index.md'))
       .map(([p, m]) => toSidebar(p, m))
       .sort(sortSidebar);
+
+const allPages = sidebarItems;
+
+const currentIdx = allPages.findIndex(item => item.link === Astro.url.pathname.replace(/\/$/, ''));
+const prev = currentIdx > 0 ? allPages[currentIdx - 1] : null;
+const next = currentIdx < allPages.length - 1 ? allPages[currentIdx + 1] : null;
 ---
 
-<MainLayout title={frontmatter.title} frontmatter={frontmatter} navItems={navItems} sidebarItems={sidebarItems}>
+<MainLayout title={frontmatter.title} frontmatter={frontmatter} navItems={navItems} sidebarItems={sidebarItems} prev={prev} next={next}>
   <Content />
 </MainLayout>

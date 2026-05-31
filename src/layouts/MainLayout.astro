@@ -4,9 +4,11 @@ interface Props {
   frontmatter?: { title?: string; description?: string; keywords?: string; date?: string };
   navItems?: { text: string; link: string }[];
   sidebarItems?: { text: string; link: string }[];
+  prev?: { text: string; link: string } | null;
+  next?: { text: string; link: string } | null;
 }
 
-const { title: propTitle, frontmatter, navItems = [], sidebarItems = [] } = Astro.props;
+const { title: propTitle, frontmatter, navItems = [], sidebarItems = [], prev, next } = Astro.props;
 const title = propTitle || frontmatter?.title || 'VitePress';
 const desc = frontmatter?.description || 'VitePress 文档 - Vue 驱动的静态网站生成器';
 const kw = frontmatter?.keywords || 'VitePress, Vue, 静态网站, 文档, 指南, 配置';
@@ -111,6 +113,25 @@ const jsonLd = JSON.stringify({
 
     <main class="main">
       <slot />
+      
+      <div class="prev-next">
+        <div class="prev-next-item">
+          {prev && (
+            <a href={prev.link} class="prev-next-link">
+              <span class="prev-next-label">← 上一页</span>
+              <span class="prev-next-title">{prev.text}</span>
+            </a>
+          )}
+        </div>
+        <div class="prev-next-item prev-next-right">
+          {next && (
+            <a href={next.link} class="prev-next-link">
+              <span class="prev-next-label">下一页 →</span>
+              <span class="prev-next-title">{next.text}</span>
+            </a>
+          )}
+        </div>
+      </div>
       
       <footer class="footer">
         <p>由 VitePress 驱动</p>
