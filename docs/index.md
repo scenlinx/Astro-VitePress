@@ -1,8 +1,8 @@
 ---
 title: Astro-VitePress
-description: 基于 Astro 的 VitePress 复刻版文档网站生成器
+description: 基于 Astro 的 仿VitePress 主题文档网站生成器
 heroTitle: Astro-VitePress
-heroDesc: 基于 Astro 的 VitePress 复刻版
+heroDesc: 基于 Astro 的 仿VitePress 主题
 primaryAction: 快速开始
 primaryActionLink: /guide/quickstart
 secondaryAction: 在 GitHub 上查看

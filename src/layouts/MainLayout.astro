@@ -12,7 +12,7 @@ interface Props {
 
 const { title: propTitle, frontmatter, navItems = [], sidebarItems = [], prev, next, slug, currentSection } = Astro.props;
 const title = propTitle || frontmatter?.title || 'Astro-VitePress';
-const desc = frontmatter?.description || 'Astro-VitePress 文档 - 基于 Astro 的 VitePress 复刻版';
+const desc = frontmatter?.description || 'Astro-VitePress 文档 - 基于 Astro 的 仿VitePress 主题';
 const kw = frontmatter?.keywords || 'Astro-VitePress, Astro, 静态网站, 文档, 指南, 配置';
 const currentPath = Astro.url.pathname;
 const jsonLd = JSON.stringify({
@@ -170,7 +170,7 @@ const jsonLd = JSON.stringify({
       </div>
       
       <footer class="footer">
-        <p>Astro-VitePress — 基于 Astro 的 VitePress 复刻版</p>
+        <p>Astro-VitePress — 基于 Astro 的 仿VitePress 主题</p>
         <p class="footer-meta">
           <a href="https://github.com/scenlinx/astro-vitepress" target="_blank" rel="noopener">astro-vitepress</a>
           · 由 <a href="https://github.com/scenlinx" target="_blank" rel="noopener">scenlinx</a> 构建
