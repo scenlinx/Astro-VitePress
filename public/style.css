@@ -379,6 +379,7 @@ body.home-page {
   margin-bottom: 16px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color);
+  scroll-margin-top: 80px;
 }
 
 .main h3 {
@@ -386,6 +387,7 @@ body.home-page {
   font-weight: 600;
   margin-top: 32px;
   margin-bottom: 12px;
+  scroll-margin-top: 80px;
 }
 
 .main p {
