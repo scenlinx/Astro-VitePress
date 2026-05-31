@@ -23,6 +23,10 @@
   <img src="https://img.shields.io/badge/SEO-Friendly-FF6B6B" alt="SEO Friendly" />
 </p>
 
+<p align="center">
+  <img src="https://api.star-history.com/svg?repos=scenlinx/astro-vitepress&type=Date" width="600" alt="Star History Chart" />
+</p>
+
 ---
 
 ## ✨ 特性
