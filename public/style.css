@@ -19,9 +19,13 @@
 body {
   font-family: var(--font-sans);
   color: var(--text-color);
-  background-color: var(--bg-color);
+  background: linear-gradient(to right, var(--sidebar-bg) 0, var(--sidebar-bg) 240px, var(--bg-color) 240px);
   line-height: 1.6;
   min-height: 100vh;
+}
+
+body.home-page {
+  background: var(--bg-color);
 }
 
 .sidebar-bg {
@@ -221,6 +225,11 @@ body {
 .toc-level-h3 {
   padding-left: 24px;
   font-size: 12px;
+}
+
+.home-main {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .home {
