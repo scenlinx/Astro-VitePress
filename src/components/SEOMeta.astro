@@ -1,0 +1,101 @@
+---
+// SEOMeta.astro — SEO 元标签组件，统一管理 Open Graph、Twitter Card、JSON-LD 等
+export interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  type?: 'website' | 'article';
+  url?: string;
+  date?: string;
+  jsonLdType?: 'WebSite' | 'Article';
+  lang?: string;
+}
+
+const {
+  title,
+  description = 'Astro-VitePress 是基于 Astro 的 仿VitePress 主题',
+  keywords = 'Astro-VitePress, Astro, 静态网站, 文档生成器',
+  type = 'website',
+  url = 'https://docs.panws.top',
+  date,
+  jsonLdType = 'WebSite',
+  lang = 'zh-CN',
+} = Astro.props;
+
+const ogTitle = type === 'article' ? `${title} | Astro-VitePress` : 'Astro-VitePress';
+
+let jsonLd: Record<string, any> = {
+  "@context": "https://schema.org",
+  "@type": jsonLdType,
+  "name": "Astro-VitePress",
+  "url": "https://docs.panws.top",
+};
+
+if (jsonLdType === 'WebSite') {
+  jsonLd = {
+    ...jsonLd,
+    "description": description,
+    "inLanguage": lang,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://docs.panws.top/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+} else if (jsonLdType === 'Article') {
+  jsonLd = {
+    ...jsonLd,
+    "headline": title,
+    "description": description,
+    "author": { "@type": "Person", "name": "scenlinx" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Astro-VitePress",
+      "url": "https://docs.panws.top",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://github.com/scenlinx/astro-vitepress/logo.svg"
+      }
+    },
+    "datePublished": date || new Date().toISOString(),
+    "dateModified": date || new Date().toISOString(),
+    "inLanguage": lang,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Astro-VitePress",
+      "url": "https://docs.panws.top"
+    }
+  };
+}
+
+const jsonLdStr = JSON.stringify(jsonLd);
+---
+
+<meta name="description" content={description}>
+<meta name="keywords" content={keywords}>
+<meta name="author" content="scenlinx">
+
+<!-- Open Graph -->
+<meta property="og:title" content={ogTitle}>
+<meta property="og:description" content={description}>
+<meta property="og:type" content={type}>
+<meta property="og:url" content={url}>
+<meta property="og:site_name" content="Astro-VitePress">
+<meta property="og:locale" content="zh_CN">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={ogTitle}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:creator" content="@scenlinx">
+<meta name="twitter:site" content="@scenlinx">
+
+<!-- Canonical (only once) -->
+<link rel="canonical" href={url}>
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={jsonLdStr}></script>
+
+<!-- 预加载关键资源 -->
+<link rel="preload" as="style" href="/style.css">
+<link rel="preconnect" href="https://github.com">

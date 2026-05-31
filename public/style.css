@@ -16,10 +16,6 @@
   --border-color: #e2e8f0;
   --code-bg: #f1f5f9;
 
-  /* Code block */
-  --pre-bg: #1e1e2e;
-  --pre-color: #cdd6f4;
-
   /* Overlay & Shadow */
   --overlay-bg: rgba(0,0,0,0.3);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
@@ -130,6 +126,7 @@
   --sidebar-bg: #0d101a;
   --border-color: #232a33;
   --code-bg: #1e293b;
+
 }
 
 * {
@@ -571,8 +568,6 @@ code {
 }
 
 pre {
-  background: var(--pre-bg);
-  color: var(--pre-color);
   padding: var(--pad-xl);
   border-radius: var(--radius-md);
   overflow-x: auto;

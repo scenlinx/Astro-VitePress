@@ -1,5 +1,13 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://vitepress.vuejs.org',
+  site: 'https://docs.panws.top',
+  
+  build: {
+    inlineStylesheets: 'auto',
+  },
+  
+  markdown: {
+    syntaxHighlight: 'shiki',
+  }
 });

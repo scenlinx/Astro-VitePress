@@ -1,4 +1,13 @@
 ---
+import SEOMeta from '../components/SEOMeta.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import GitHubLink from '../components/GitHubLink.astro';
+import DesktopSearchBtn from '../components/DesktopSearchBtn.astro';
+import NavDrawer from '../components/NavDrawer.astro';
+import FloatingButtons from '../components/FloatingButtons.astro';
+import SearchModal from '../components/SearchModal.astro';
+import ThemeScript from '../components/ThemeScript.astro';
+
 interface Props {
   title: string;
   navItems?: { text: string; link: string }[];
@@ -6,14 +15,6 @@ interface Props {
 
 const { title, navItems = [] } = Astro.props;
 const currentPath = Astro.url.pathname;
-const jsonLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Astro-VitePress",
-  "url": "https://github.com/scenlinx/astro-vitepress",
-  "description": "Astro-VitePress 是基于 Astro 的 仿VitePress 主题",
-  "inLanguage": "zh-CN"
-});
 ---
 
 <!DOCTYPE html>
@@ -21,27 +22,16 @@ const jsonLd = JSON.stringify({
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Astro-VitePress 是基于 Astro 的 仿VitePress 主题">
-  <meta name="keywords" content="Astro-VitePress, Astro, 静态网站, 文档生成器">
-  <meta name="author" content="scenlinx">
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content="Astro-VitePress">
-  <meta property="og:description" content="Astro-VitePress 是基于 Astro 的 仿VitePress 主题">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://github.com/scenlinx/astro-vitepress">
-  <link rel="canonical" href="https://github.com/scenlinx/astro-vitepress">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Astro-VitePress">
-  <meta name="twitter:description" content="Astro-VitePress 是基于 Astro 的 仿VitePress 主题">
-  
-  <!-- JSON-LD -->
-  <script type="application/ld+json" set:html={jsonLd}></script>
-  
-  <title>Astro-VitePress</title>
+  <SEOMeta 
+    title={title}
+    type="website"
+    url="https://docs.panws.top"
+    jsonLdType="WebSite"
+  />
+  <title>{title}</title>
   <link rel="stylesheet" href="/style.css">
+  <!-- 预加载下一页 -->
+  <link rel="prefetch" href="/guide/quickstart">
 </head>
 <body class="home-page">
   <nav class="nav">
@@ -62,71 +52,24 @@ const jsonLd = JSON.stringify({
         </button>
       </div>
       <div class="nav-right">
-        <button class="search-btn" id="desktopSearchBtn" aria-label="Search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <span class="search-btn-text">搜索</span>
-          <span class="search-btn-hint">Ctrl K</span>
-        </button>
+        <DesktopSearchBtn />
         <div class="nav-links">
           {navItems.map(item => (
             <a 
               href={item.link} 
-              class={`nav-link ${currentPath === item.link ? 'active' : ''}`}
+              class:list={['nav-link', { active: currentPath === item.link }]}
             >
               {item.text}
             </a>
           ))}
         </div>
-        <button class="theme-toggle" aria-label="Toggle theme">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/>
-          <line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/>
-          <line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-          <line x1="19.78" y1="4.22" x2="18.36" y2="5.64"/>
-        </svg>
-      </button>
-      <a href="https://github.com/scenlinx/astro-vitepress" class="nav-gh-link" target="_blank" rel="noopener" aria-label="GitHub">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/>
-        </svg>
-      </a>
+        <ThemeToggle />
+        <GitHubLink />
+      </div>
     </div>
   </nav>
 
-  <div class="nav-drawer">
-    {navItems.map(item => (
-      <a href={item.link} class={`nav-link ${currentPath === item.link ? 'active' : ''}`}>{item.text}</a>
-    ))}
-    <div class="nav-drawer-actions">
-      <a href="https://github.com/scenlinx/astro-vitepress" class="nav-gh-link" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/>
-        </svg>GitHub
-      </a>
-      <button class="drawer-theme-toggle" aria-label="Toggle theme">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/>
-          <line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/>
-          <line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        切换主题
-      </button>
-    </div>
-  </div>
+  <NavDrawer navItems={navItems} currentPath={currentPath} />
 
   <div class="sidebar-overlay"></div>
 
@@ -143,111 +86,11 @@ const jsonLd = JSON.stringify({
     </p>
   </footer>
 
-  <button class="search-btn-floating" id="searchBtnFloating" aria-label="Search">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="11" cy="11" r="8"/>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-  </button>
-
-  <!-- Search modal -->
-  <div class="search-overlay" id="searchOverlay">
-    <div class="search-modal">
-      <div class="search-input-wrap">
-        <svg class="search-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-        <input type="text" class="search-input" id="searchInput" placeholder="搜索文档..." autofocus>
-        <button class="search-close" id="searchClose">&times;</button>
-      </div>
-      <div class="search-results" id="searchResults"></div>
-    </div>
-  </div>
+  <FloatingButtons />
+  <SearchModal />
+  <ThemeScript />
 
   <script>
-    let searchIndex = [];
-    const searchOverlay = document.getElementById('searchOverlay');
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-    const searchClose = document.getElementById('searchClose');
-
-    const openSearch = () => {
-      if (!searchOverlay) return;
-      searchOverlay.classList.add('open');
-      searchInput?.focus();
-      if (searchIndex.length === 0) {
-        fetch('/search.json').then(r => r.json()).then(data => { searchIndex = data; }).catch(() => {});
-      }
-    };
-
-    document.getElementById('searchBtnFloating')?.addEventListener('click', openSearch);
-    document.getElementById('desktopSearchBtn')?.addEventListener('click', openSearch);
-
-    const closeSearch = () => {
-      searchOverlay.classList.remove('open');
-      if (searchInput) searchInput.value = '';
-      if (searchResults) searchResults.innerHTML = '';
-    };
-
-    searchClose?.addEventListener('click', closeSearch);
-    searchOverlay.addEventListener('click', e => { if (e.target === searchOverlay) closeSearch(); });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeSearch();
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); searchOverlay.classList.contains('open') ? closeSearch() : openSearch(); }
-    });
-
-    searchInput?.addEventListener('input', () => {
-      const q = searchInput.value.trim().toLowerCase();
-      if (!q || searchIndex.length === 0) { searchResults.innerHTML = ''; return; }
-      const matches = searchIndex.filter(item =>
-        item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q) || item.content.toLowerCase().includes(q)
-      ).slice(0, 10);
-      searchResults.innerHTML = matches.map(item =>
-        `<a href="${item.url}" class="search-result-item" onclick="document.getElementById('searchOverlay').classList.remove('open')">
-          <span class="search-result-title">${highlight(item.title, q)}</span>
-          <span class="search-result-desc">${highlight(item.description, q)}</span>
-        </a>`
-      ).join('') || '<div class="search-result-empty">未找到相关结果</div>';
-    });
-
-    function highlight(text, query) {
-      if (!text) return '';
-      const idx = text.toLowerCase().indexOf(query);
-      if (idx === -1) return text;
-      return text.slice(0, idx) + '<mark>' + text.slice(idx, idx + query.length) + '</mark>' + text.slice(idx + query.length);
-    }
-
-    const themeToggle = document.querySelector('.theme-toggle');
-    const html = document.documentElement;
-    
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      html.classList.add(savedTheme);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      html.classList.add('dark');
-    }
-    
-    themeToggle?.addEventListener('click', () => {
-      html.classList.toggle('dark');
-      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : '');
-    });
-
-    const hamburgerNav = document.querySelector('.hamburger-nav');
-    const navDrawer = document.querySelector('.nav-drawer');
-    hamburgerNav?.addEventListener('click', () => {
-      navDrawer?.classList.toggle('open');
-    });
-
-    const drawerThemeToggle = document.querySelector('.drawer-theme-toggle');
-    drawerThemeToggle?.addEventListener('click', () => {
-      html.classList.toggle('dark');
-      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : '');
-    });
-
-    document.getElementById('drawerSearchBtn')?.addEventListener('click', openSearch);
-
     const nav = document.querySelector('.nav');
     const searchBtnFloating = document.getElementById('searchBtnFloating');
     window.addEventListener('scroll', () => {

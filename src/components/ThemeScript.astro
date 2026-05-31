@@ -1,0 +1,28 @@
+---
+// ThemeScript.astro — 暗色主题切换脚本
+---
+<script>
+  const themeToggle = document.querySelector('.theme-toggle');
+  const html = document.documentElement;
+
+  // 初始化主题
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    html.classList.add(savedTheme);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    html.classList.add('dark');
+  }
+
+  // 桌面端主题切换
+  themeToggle?.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : '');
+  });
+
+  // 抽屉中主题切换
+  const drawerThemeToggle = document.querySelector('.drawer-theme-toggle');
+  drawerThemeToggle?.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : '');
+  });
+</script>

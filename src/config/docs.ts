@@ -23,13 +23,23 @@ export const cleanSlug = (p: string): string =>
 export async function loadAllDocsMeta(): Promise<{ allMeta: DocMeta[]; modules: Record<string, any> }> {
   const docsGlob = import.meta.glob('/docs/**/*.md');
   const entries = Object.entries(docsGlob);
-  const allMeta: DocMeta[] = [];
-  const modules: Record<string, any> = {};
-  for (const [path, loader] of entries) {
+  
+  const promises = entries.map(async ([path, loader]) => {
     const mod = await loader();
-    allMeta.push({ path, slug: cleanSlug(path), frontmatter: mod.frontmatter || {} });
-    modules[path] = mod;
-  }
+    return { path, slug: cleanSlug(path), frontmatter: mod.frontmatter || {}, module: mod };
+  });
+  
+  const results = await Promise.all(promises);
+  
+  const allMeta: DocMeta[] = results.map(r => ({
+    path: r.path,
+    slug: r.slug,
+    frontmatter: r.frontmatter
+  }));
+  
+  const modules: Record<string, any> = {};
+  results.forEach(r => { modules[r.path] = r.module; });
+  
   return { allMeta, modules };
 }
 
