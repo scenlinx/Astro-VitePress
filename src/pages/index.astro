@@ -1,0 +1,41 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { navItems, sidebarItems } from '../config/site';
+---
+
+<MainLayout 
+  title="VitePress" 
+  navItems={navItems} 
+  sidebarItems={sidebarItems}
+>
+  <div class="home">
+    <div class="hero">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1>VitePress</h1>
+      <p>Vue-powered Static Site Generator</p>
+      <div class="actions">
+        <a href="#guide" class="btn primary">Get Started</a>
+        <a href="https://github.com/vuejs/vitepress" target="_blank" class="btn">View on GitHub</a>
+      </div>
+    </div>
+    
+    <div class="features">
+      <div class="feature">
+        <h3>Powered by Vite</h3>
+        <p>Lightning fast HMR that stays fast regardless of the size of your project.</p>
+      </div>
+      <div class="feature">
+        <h3>Vue-Powered</h3>
+        <p>Enjoy the full power of Vue 3's template syntax and composition API.</p>
+      </div>
+      <div class="feature">
+        <h3>Markdown First</h3>
+        <p>Focus on content with built-in markdown extensions that support Vue components.</p>
+      </div>
+    </div>
+  </div>
+</MainLayout>
