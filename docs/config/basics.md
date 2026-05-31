@@ -30,6 +30,12 @@ export default {
 }
 ```
 
+### 基础标题
+配置网站的基本标题和描述信息。
+
+### 主题配置
+通过 `themeConfig` 对象配置导航栏、侧边栏等。
+
 ## Frontmatter
 
 使用 frontmatter 配置单个页面：
@@ -41,3 +47,9 @@ description: 页面描述
 sidebar: false
 ---
 ```
+
+### 常用字段
+`title`、`description`、`keywords` 是最常用的 frontmatter 字段。
+
+### 自定义字段
+可以添加任意自定义字段，在页面中通过 `frontmatter` 变量读取。

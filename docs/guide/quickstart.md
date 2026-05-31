@@ -36,6 +36,12 @@ VitePress 内置了许多功能：
 - **主题定制**: 支持暗色模式的可定制主题
 - **SEO 友好**: 内置 SEO 优化
 
+### 开发服务器
+开发服务器支持热更新，保存文件后立即生效。
+
+### 构建优化
+VitePress 会自动进行代码分割和资源优化。
+
 ## 配置
 
 创建 `vitepress.config.js` 文件来配置你的网站：
@@ -46,6 +52,12 @@ export default {
   description: '一个 VitePress 网站'
 }
 ```
+
+### 导航配置
+通过 `themeConfig.nav` 配置顶部导航栏。
+
+### 侧边栏配置
+通过 `themeConfig.sidebar` 配置左侧导航。
 
 ## 下一步
 
