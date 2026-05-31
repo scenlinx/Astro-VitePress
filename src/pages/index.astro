@@ -1,25 +1,11 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
-import { navConfig } from '../config/site';
+import { loadAllDocsMeta, buildNavItems } from '../config/docs';
 
-const docsGlob = import.meta.glob('/docs/**/*.md');
-const allDocs = [];
-for (const [path, loader] of Object.entries(docsGlob)) {
-  allDocs.push([path, await loader()]);
-}
-const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
-
-const navItems = navConfig.map(item => {
-  if (item.type === 'folder') {
-    const pages = allDocs.filter(([p]) => p.startsWith(`/docs/${item.id}/`));
-    const first = pages.sort((a, b) => (a[1].frontmatter?.order ?? 999) - (b[1].frontmatter?.order ?? 999))[0];
-    return { text: item.text, link: `/${cleanSlug(first?.[0] || '')}` };
-  }
-  return { text: item.text, link: item.id === '/' ? '/' : `/${item.id}` };
-});
-
-const homeEntry = allDocs.find(([p]) => p === '/docs/index.md');
-const { frontmatter: homeFm } = homeEntry[1];
+const { allMeta } = await loadAllDocsMeta();
+const navItems = buildNavItems(allMeta);
+const homeEntry = allMeta.find(m => m.slug === 'index');
+const homeFm = homeEntry?.frontmatter || {};
 ---
 
 <HomeLayout 
