@@ -411,6 +411,7 @@ body.home-page {
 
 .home {
   text-align: center;
+  padding-bottom: var(--pad-5xl);
 }
 
 .hero {
@@ -487,7 +488,6 @@ body.home-page {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--gap-2xl);
-  margin-top: var(--margin-5xl);
 }
 
 .feature {
@@ -497,15 +497,16 @@ body.home-page {
   text-align: left;
 }
 
-.feature h3 {
+.home .feature h3 {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--margin-sm);
+  margin: 0 0 var(--margin-sm);
 }
 
-.feature p {
+.home .feature p {
   font-size: var(--font-size-base);
   color: var(--text-color-light);
+  margin: 0;
 }
 
 .main h1 {
@@ -603,11 +604,10 @@ pre code {
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  padding: var(--pad-xl) var(--pad-xl);
+  padding: var(--pad-lg) var(--pad-xl);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
   transition: all var(--transition-fast);
-  gap: var(--gap-sm);
 }
 
 .prev-next-link:hover {
