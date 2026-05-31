@@ -73,6 +73,10 @@ const currentPath = Astro.url.pathname;
 
     <main class="main">
       <slot />
+      
+      <footer class="footer">
+        <p>Powered by VitePress</p>
+      </footer>
     </main>
 
     <aside class="sidebar sidebar-right">
@@ -120,9 +124,5 @@ const currentPath = Astro.url.pathname;
       headings.forEach(h => observer.observe(h));
     });
   </script>
-
-  <footer class="footer">
-    <p>Powered by VitePress</p>
-  </footer>
 </body>
 </html>
