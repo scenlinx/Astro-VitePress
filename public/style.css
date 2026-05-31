@@ -67,6 +67,7 @@ body.home-page {
   height: 100%;
   display: flex;
   align-items: center;
+  padding: 0 24px;
 }
 
 .nav-left {
@@ -151,6 +152,7 @@ body.home-page {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 24px;
 }
 
 .sidebar {
