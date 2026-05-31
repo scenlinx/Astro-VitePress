@@ -213,6 +213,8 @@ body.home-page {
   padding: 48px 48px 0 48px;
   min-width: 0;
   background: var(--bg-color);
+  display: flex;
+  flex-direction: column;
 }
 
 .toc-links {
@@ -440,7 +442,7 @@ pre code {
   border-top: 1px solid var(--border-color);
   color: var(--text-color-light);
   font-size: 14px;
-  margin-top: 48px;
+  margin-top: auto;
 }
 
 .footer p {
