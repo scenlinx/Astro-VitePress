@@ -21,6 +21,17 @@ body {
   color: var(--text-color);
   background-color: var(--bg-color);
   line-height: 1.6;
+  min-height: 100vh;
+}
+
+.sidebar-bg {
+  position: fixed;
+  left: 0;
+  top: 56px;
+  bottom: 0;
+  width: 50%;
+  background: var(--sidebar-bg);
+  z-index: -1;
 }
 
 .nav {
@@ -169,6 +180,9 @@ body {
   flex: 1;
   padding: 48px;
   min-width: 0;
+  background: var(--bg-color);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .toc-links {
@@ -387,12 +401,19 @@ pre code {
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar-bg {
+    display: none;
+  }
+  
+  .sidebar-left {
+    display: none;
+  }
+  
+  .sidebar-right {
     display: none;
   }
   
   .main {
-    margin-left: 0;
     padding: 24px;
   }
   
