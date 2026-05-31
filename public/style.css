@@ -62,9 +62,9 @@
   --z-negative: -1;
 
   /* Transition */
-  --transition-fast: 0.2s;
-  --transition-drawer: 0.25s ease;
-  --transition-fade: 0.3s;
+  --transition-fast: 0.2s ease;
+  --transition-drawer: 0.2s ease;
+  --transition-fade: 0.2s ease;
 
   /* Spacing: gap */
   --gap-xs: 2px;
@@ -348,6 +348,7 @@ body.home-page {
 .sidebar-link.active {
   color: var(--primary-color);
   background: var(--primary-bg);
+  transition: none;
 }
 
 .main {
