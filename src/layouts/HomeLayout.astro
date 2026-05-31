@@ -46,30 +46,41 @@ const jsonLd = JSON.stringify({
 <body class="home-page">
   <nav class="nav">
     <div class="nav-container">
-      <a href="/" class="nav-logo">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Astro-VitePress</span>
-      </a>
-      <button class="hamburger-nav" aria-label="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="5" r="1.5"/>
-          <circle cx="12" cy="12" r="1.5"/>
-          <circle cx="12" cy="19" r="1.5"/>
-        </svg>
-      </button>
-      <div class="nav-links">
-        {navItems.map(item => (
-          <a 
-            href={item.link} 
-            class={`nav-link ${currentPath === item.link ? 'active' : ''}`}
-          >
-            {item.text}
-          </a>
-        ))}
+      <div class="nav-left">
+        <a href="/" class="nav-logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Astro-VitePress</span>
+        </a>
+        <button class="hamburger-nav" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="5" r="1.5"/>
+            <circle cx="12" cy="12" r="1.5"/>
+            <circle cx="12" cy="19" r="1.5"/>
+          </svg>
+        </button>
       </div>
-      <button class="theme-toggle" aria-label="Toggle theme">
+      <div class="nav-right">
+        <button class="search-btn" id="desktopSearchBtn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span class="search-btn-text">搜索</span>
+          <span class="search-btn-hint">Ctrl K</span>
+        </button>
+        <div class="nav-links">
+          {navItems.map(item => (
+            <a 
+              href={item.link} 
+              class={`nav-link ${currentPath === item.link ? 'active' : ''}`}
+            >
+              {item.text}
+            </a>
+          ))}
+        </div>
+        <button class="theme-toggle" aria-label="Toggle theme">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>
@@ -132,7 +143,75 @@ const jsonLd = JSON.stringify({
     </p>
   </footer>
 
+  <!-- Search modal -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-modal">
+      <div class="search-input-wrap">
+        <svg class="search-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="搜索文档..." autofocus>
+        <button class="search-close" id="searchClose">&times;</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
   <script>
+    let searchIndex = [];
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const searchClose = document.getElementById('searchClose');
+
+    const openSearch = () => {
+      if (!searchOverlay) return;
+      searchOverlay.classList.add('open');
+      searchInput?.focus();
+      if (searchIndex.length === 0) {
+        fetch('/search.json').then(r => r.json()).then(data => { searchIndex = data; }).catch(() => {});
+      }
+    };
+
+    document.getElementById('searchBtnFloating')?.addEventListener('click', openSearch);
+    document.getElementById('desktopSearchBtn')?.addEventListener('click', openSearch);
+
+    const closeSearch = () => {
+      searchOverlay.classList.remove('open');
+      if (searchInput) searchInput.value = '';
+      if (searchResults) searchResults.innerHTML = '';
+    };
+
+    searchClose?.addEventListener('click', closeSearch);
+    searchOverlay.addEventListener('click', e => { if (e.target === searchOverlay) closeSearch(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeSearch();
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); searchOverlay.classList.contains('open') ? closeSearch() : openSearch(); }
+    });
+
+    searchInput?.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      if (!q || searchIndex.length === 0) { searchResults.innerHTML = ''; return; }
+      const matches = searchIndex.filter(item =>
+        item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q) || item.content.toLowerCase().includes(q)
+      ).slice(0, 10);
+      searchResults.innerHTML = matches.map(item =>
+        `<a href="${item.url}" class="search-result-item" onclick="document.getElementById('searchOverlay').classList.remove('open')">
+          <span class="search-result-title">${highlight(item.title, q)}</span>
+          <span class="search-result-desc">${highlight(item.description, q)}</span>
+        </a>`
+      ).join('') || '<div class="search-result-empty">未找到相关结果</div>';
+    });
+
+    function highlight(text, query) {
+      if (!text) return '';
+      const idx = text.toLowerCase().indexOf(query);
+      if (idx === -1) return text;
+      return text.slice(0, idx) + '<mark>' + text.slice(idx, idx + query.length) + '</mark>' + text.slice(idx + query.length);
+    }
+
     const themeToggle = document.querySelector('.theme-toggle');
     const html = document.documentElement;
     
@@ -160,9 +239,13 @@ const jsonLd = JSON.stringify({
       localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : '');
     });
 
+    document.getElementById('drawerSearchBtn')?.addEventListener('click', openSearch);
+
     const nav = document.querySelector('.nav');
+    const searchBtnFloating = document.getElementById('searchBtnFloating');
     window.addEventListener('scroll', () => {
       nav?.classList.toggle('scrolled', window.scrollY > 0);
+      searchBtnFloating?.classList.toggle('visible', window.scrollY > 300);
     });
   </script>
 </body>
