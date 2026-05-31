@@ -5,22 +5,35 @@ import { loadAllDocsMeta, buildNavItems, buildAllPages, buildSidebarItems } from
 
 export async function getStaticPaths() {
   const { allMeta, modules } = await loadAllDocsMeta();
+
+  // 预计算公共数据，避免每页重复遍历全量数据
+  const navItems = buildNavItems(allMeta);
+  const allPages = buildAllPages(allMeta);
+
   return allMeta
     .filter(m => m.slug !== 'index')
-    .map(m => ({ params: { slug: m.slug }, props: { mod: modules[m.path], allMeta } }));
+    .map(m => {
+      const segments = m.slug.split('/');
+      const currentFolder = segments[0];
+      return {
+        params: { slug: m.slug },
+        props: {
+          mod: modules[m.path],
+          navItems,
+          allPages,
+          sidebarItems: buildSidebarItems(allMeta, currentFolder),
+        },
+      };
+    });
 }
 
-const { mod, allMeta } = Astro.props;
+const { mod, navItems, allPages, sidebarItems } = Astro.props;
 const { Content, frontmatter } = mod;
-const segments = Astro.params.slug.split('/');
-const currentFolder = segments[0];
 
-const navItems = buildNavItems(allMeta);
-const sidebarItems = buildSidebarItems(allMeta, currentFolder);
-const allPages = buildAllPages(allMeta);
 const currentIdx = allPages.findIndex(item => item.link === Astro.url.pathname.replace(/\/$/, ''));
 const prev = currentIdx > 0 ? allPages[currentIdx - 1] : null;
 const next = currentIdx < allPages.length - 1 ? allPages[currentIdx + 1] : null;
+const currentFolder = Astro.params.slug.split('/')[0];
 const curNav = navConfig.find(n => n.id === currentFolder);
 const currentSection = curNav?.type === 'folder' ? curNav.text : frontmatter?.title;
 ---
