@@ -648,6 +648,10 @@ pre code {
   margin-top: auto;
 }
 
+.main footer {
+  padding: var(--pad-2xl) 0;
+}
+
 .footer p {
   margin: 0;
 }
@@ -854,7 +858,7 @@ pre code {
 .back-to-top {
   display: none;
   position: fixed;
-  bottom: calc(var(--pad-2xl) + var(--back-top-size) + var(--pad-sm));
+  bottom: 180px;
   right: var(--pad-2xl);
   width: var(--back-top-size);
   height: var(--back-top-size);
@@ -883,7 +887,7 @@ pre code {
 .search-btn-floating {
   display: none;
   position: fixed;
-  bottom: var(--pad-2xl);
+  bottom: 120px;
   right: var(--pad-2xl);
   width: var(--back-top-size);
   height: var(--back-top-size);
@@ -990,6 +994,7 @@ pre code {
 .search-modal {
   width: 100%;
   max-width: 500px;
+  margin: 0 var(--pad-xl);
   background: var(--bg-color);
   border-radius: var(--radius-md);
   box-shadow: 0 16px 64px rgba(0,0,0,0.2);
