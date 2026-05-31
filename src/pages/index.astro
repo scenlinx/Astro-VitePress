@@ -1,6 +1,14 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
-import { navItems } from '../config/site';
+import { folderNames, folderOrder } from '../config/site';
+
+const allDocs = Object.entries(import.meta.glob('/docs/**/*.md', { eager: true }));
+const folders = [...new Set(allDocs.map(([p]) => p.split('/')[2]))].sort((a, b) => (folderOrder[a] || 99) - (folderOrder[b] || 99));
+const navItems = folders.map(f => {
+  const first = allDocs.find(([p]) => p.startsWith(`/docs/${f}/`));
+  const slug = first[0].replace('/docs/', '').replace(/\.md$/, '');
+  return { text: folderNames[f] || f, link: `/${slug}` };
+});
 ---
 
 <HomeLayout 
@@ -17,7 +25,7 @@ import { navItems } from '../config/site';
       <h1>VitePress</h1>
       <p>Vue 驱动的静态网站生成器</p>
       <div class="actions">
-        <a href="/guide" class="btn primary">快速开始</a>
+        <a href={navItems.find(n => n.text === '指南')?.link || '/guide/quickstart'} class="btn primary">快速开始</a>
         <a href="https://github.com/vuejs/vitepress" target="_blank" class="btn">在 GitHub 上查看</a>
       </div>
     </div>

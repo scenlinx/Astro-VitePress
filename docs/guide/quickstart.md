@@ -1,5 +1,5 @@
 ---
-title: 指南
+title: 快速开始
 description: VitePress 快速入门指南，包含安装、配置和功能特性说明
 keywords: VitePress, 指南, 快速开始, 安装, 配置, 静态网站
 date: '2026-05-31'

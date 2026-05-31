@@ -1,12 +1,12 @@
 ---
-import { navItems, sidebarItems } from '../config/site';
-
 interface Props {
   title?: string;
   frontmatter?: { title?: string; description?: string; keywords?: string; date?: string };
+  navItems?: { text: string; link: string }[];
+  sidebarItems?: { text: string; link: string }[];
 }
 
-const { title: propTitle, frontmatter } = Astro.props;
+const { title: propTitle, frontmatter, navItems = [], sidebarItems = [] } = Astro.props;
 const title = propTitle || frontmatter?.title || 'VitePress';
 const desc = frontmatter?.description || 'VitePress 文档 - Vue 驱动的静态网站生成器';
 const kw = frontmatter?.keywords || 'VitePress, Vue, 静态网站, 文档, 指南, 配置';
