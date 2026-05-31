@@ -134,7 +134,8 @@ const jsonLd = JSON.stringify({
       </div>
       
       <footer class="footer">
-        <p>由 VitePress 驱动</p>
+        <p>astro-vitepress — 基于 Astro 的 VitePress 复刻版</p>
+        <p class="footer-meta">由 <a href="https://github.com/scenlinx" target="_blank" rel="noopener">scenlinx</a> 构建 · MIT License</p>
       </footer>
     </main>
 
@@ -179,6 +180,7 @@ const jsonLd = JSON.stringify({
           e.preventDefault();
           setActive(link);
           clickPending = true;
+          setTimeout(() => { clickPending = false; }, 400);
           const target = document.querySelector(link.getAttribute('href'));
           if (target) {
             const top = target.getBoundingClientRect().top + window.scrollY - 80;
@@ -187,7 +189,7 @@ const jsonLd = JSON.stringify({
         });
       });
       const updateActive = () => {
-        if (clickPending) { clickPending = false; return; }
+        if (clickPending) { return; }
         const off = 80;
         let active = tocLinks[0];
         headings.forEach((h, i) => {
