@@ -1,11 +1,11 @@
 ---
+import { navItems, sidebarItems } from '../config/site';
+
 interface Props {
   title: string;
-  navItems?: { text: string; link: string }[];
-  sidebarItems?: { text: string; link: string }[];
 }
 
-const { title, navItems = [], sidebarItems = [] } = Astro.props;
+const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
