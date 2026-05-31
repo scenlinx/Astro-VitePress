@@ -25,7 +25,8 @@ const cleanSlug = p => p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/i
 
 const navItems = navConfig.map(item => {
   if (item.type === 'folder') {
-    const first = allDocs.find(([p]) => p.startsWith(`/docs/${item.id}/`));
+    const pages = allDocs.filter(([p]) => p.startsWith(`/docs/${item.id}/`));
+    const first = pages.sort((a, b) => (a[1].frontmatter?.order ?? 999) - (b[1].frontmatter?.order ?? 999))[0];
     return { text: item.text, link: `/${cleanSlug(first?.[0] || '')}` };
   }
   return { text: item.text, link: item.id === '/' ? '/' : `/${item.id}` };
