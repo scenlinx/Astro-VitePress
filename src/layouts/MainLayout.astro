@@ -2,10 +2,12 @@
 import { navItems, sidebarItems } from '../config/site';
 
 interface Props {
-  title: string;
+  title?: string;
+  frontmatter?: { title?: string };
 }
 
-const { title } = Astro.props;
+const { title: propTitle, frontmatter } = Astro.props;
+const title = propTitle || frontmatter?.title || 'VitePress';
 const currentPath = Astro.url.pathname;
 ---
 
