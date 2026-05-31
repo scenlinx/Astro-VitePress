@@ -44,19 +44,34 @@ body.home-page {
   left: 0;
   right: 0;
   height: 56px;
+  z-index: 100;
   background: var(--bg-color);
   border-bottom: 1px solid var(--border-color);
-  z-index: 100;
 }
 
 .nav-container {
-  max-width: 1440px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+
+.nav-left {
+  width: 240px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.nav-right {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
 }
 
 .nav-logo {
