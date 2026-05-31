@@ -116,7 +116,6 @@ body {
 .sidebar {
   width: 240px;
   padding: 24px 0;
-  background: var(--sidebar-bg);
   position: sticky;
   top: 56px;
   height: fit-content;
@@ -125,6 +124,7 @@ body {
 }
 
 .sidebar-left {
+  background: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
 }
 
