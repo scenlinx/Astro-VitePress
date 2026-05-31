@@ -3,6 +3,7 @@ title: 主题配置
 description: VitePress 主题配置指南，包括主题、搜索和社交链接
 keywords: VitePress, 主题, 配置, 搜索, 社交链接
 date: '2026-05-31'
+order: 2
 ---
 
 # 主题配置

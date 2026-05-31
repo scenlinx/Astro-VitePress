@@ -3,6 +3,7 @@ title: 基础配置
 description: VitePress 基础配置说明，包括网站配置和 Frontmatter
 keywords: VitePress, 配置, 基础, Frontmatter
 date: '2026-05-31'
+order: 1
 ---
 
 # 基础配置

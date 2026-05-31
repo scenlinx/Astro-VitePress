@@ -35,13 +35,18 @@ const currentNav = navConfig.find(item =>
   item.type === 'folder' ? item.id === currentFolder : item.id === currentFolder
 );
 
+const toSidebar = (p, m) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}`, order: m.frontmatter?.order ?? 999 });
+const sortSidebar = (a, b) => a.order - b.order;
+
 const sidebarItems = currentNav?.type === 'folder'
   ? allDocs
       .filter(([p]) => p.startsWith(`/docs/${currentFolder}/`))
-      .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }))
+      .map(([p, m]) => toSidebar(p, m))
+      .sort(sortSidebar)
   : allDocs
       .filter(([p]) => p.split('/')[2].indexOf('.') !== -1 && !p.endsWith('/index.md'))
-      .map(([p, m]) => ({ text: m.frontmatter?.title || '', link: `/${cleanSlug(p)}` }));
+      .map(([p, m]) => toSidebar(p, m))
+      .sort(sortSidebar);
 ---
 
 <MainLayout title={frontmatter.title} frontmatter={frontmatter} navItems={navItems} sidebarItems={sidebarItems}>

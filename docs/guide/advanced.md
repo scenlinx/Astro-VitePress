@@ -3,6 +3,7 @@ title: 高级用法
 description: VitePress 高级功能和自定义配置技巧
 keywords: VitePress, 高级, 自定义, 主题, 插件
 date: '2026-05-31'
+order: 2
 ---
 
 # 高级用法

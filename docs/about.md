@@ -3,6 +3,7 @@ title: 关于
 description: 了解 VitePress 项目的背景、理念和发展历程
 keywords: VitePress, 关于, 背景, 理念, Vue
 date: '2026-05-31'
+order: 1
 ---
 
 # 关于 VitePress
