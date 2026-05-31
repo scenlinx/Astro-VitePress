@@ -72,6 +72,8 @@ astro-vitepress/
 │   ├── apple-touch-icon.svg
 │   └── style.css
 ├── astro.config.mjs         # Astro 配置
+├── vercel.json              # Vercel 部署配置
+├── netlify.toml             # Netlify 部署配置
 └── package.json
 ```
 
@@ -159,10 +161,35 @@ features:
 npm run build
 ```
 
-`dist/` 目录即为完整的静态站点，可部署到任意静态托管服务：
+`dist/` 目录即为完整的静态站点，可部署到任意静态托管服务。
 
-- **GitHub Pages** / **Netlify** / **Vercel** / **Cloudflare Pages**
-- 或任意支持静态文件的服务器
+项目已内置 **Vercel** 和 **Netlify** 的部署配置文件，零配置一键部署：
+
+#### ▲ Vercel（推荐）
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/scenlinx/astro-vitepress)
+
+1. 点击上方按钮，或登录 [Vercel](https://vercel.com) 导入 GitHub 仓库
+2. Vercel 自动识别 `vercel.json`，无需任何手动配置
+3. 点击 Deploy，30 秒内完成部署
+4. 自动获得 `*.vercel.app` 免费域名，支持自定义域名 + 自动 HTTPS
+
+**Vercel 免费额度**：100GB 带宽/月、6000 构建分钟/月，个人项目完全够用。
+
+#### Netlify
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/scenlinx/astro-vitepress)
+
+1. 点击上方按钮，或登录 [Netlify](https://netlify.com) 导入 GitHub 仓库
+2. Netlify 自动读取 `netlify.toml` 配置
+3. 点击 Deploy site，完成后获得 `*.netlify.app` 免费域名
+4. 支持自定义域名、自动 HTTPS、表单处理等
+
+**Netlify 免费额度**：100GB 带宽/月、300 构建分钟/月。
+
+#### 其他平台
+
+也支持部署到 **GitHub Pages**、**Cloudflare Pages** 等任意静态托管服务。
 
 ## 🎨 主题定制
 
