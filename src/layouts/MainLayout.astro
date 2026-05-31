@@ -53,7 +53,10 @@ const currentPath = Astro.url.pathname;
   </nav>
 
   <div class="container">
-    <aside class="sidebar">
+    <aside class="sidebar sidebar-left">
+      <div class="sidebar-header">
+        <span>Menu</span>
+      </div>
       <div class="sidebar-links">
         {sidebarItems.map(item => (
           <a 
@@ -69,7 +72,52 @@ const currentPath = Astro.url.pathname;
     <main class="main">
       <slot />
     </main>
+
+    <aside class="sidebar sidebar-right">
+      <div class="sidebar-header">
+        <span>On this page</span>
+      </div>
+      <nav class="toc-links" id="toc-nav">
+        <ul class="toc-list"></ul>
+      </nav>
+    </aside>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const headings = document.querySelectorAll('main h1, main h2, main h3');
+      const tocList = document.querySelector('.toc-list');
+      
+      if (headings.length === 0 || !tocList) return;
+      
+      headings.forEach((heading, index) => {
+        const id = `heading-${index}`;
+        heading.id = id;
+        
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `#${id}`;
+        a.textContent = heading.textContent;
+        a.className = `toc-link toc-level-${heading.tagName.toLowerCase()}`;
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      const tocLinks = document.querySelectorAll('.toc-link');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const id = entry.target.id;
+          const link = document.querySelector(`.toc-link[href="#${id}"]`);
+          if (link) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0% -35% 0%' });
+
+      headings.forEach(h => observer.observe(h));
+    });
+  </script>
 
   <footer class="footer">
     <p>Powered by VitePress</p>
