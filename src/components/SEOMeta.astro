@@ -1,5 +1,7 @@
 ---
 // SEOMeta.astro — SEO 元标签组件，统一管理 Open Graph、Twitter Card、JSON-LD 等
+import { siteConfig } from '../config/site';
+
 export interface Props {
   title: string;
   description?: string;
@@ -13,25 +15,23 @@ export interface Props {
 
 const {
   title,
-  description = 'Astro-VitePress 是基于 Astro 的 仿VitePress 主题',
-  keywords = 'Astro-VitePress, Astro, 静态网站, 文档生成器',
+  description = siteConfig.description,
+  keywords = siteConfig.keywords,
   type = 'website',
-  url = 'https://docs.panws.top',
+  url = siteConfig.url,
   date,
   jsonLdType = 'WebSite',
-  lang = 'zh-CN',
+  lang = siteConfig.lang,
 } = Astro.props;
 
-const ogTitle = `${title} | Astro-VitePress`;
-
-// 社交分享图：使用在线生成的文字卡片图作为默认 og:image
-const ogImage = 'https://docs.panws.top/og-image.svg';
+const ogTitle = `${title} | ${siteConfig.name}`;
+const ogImage = `${siteConfig.url}${siteConfig.ogImage}`;
 
 let jsonLd: Record<string, any> = {
   "@context": "https://schema.org",
   "@type": jsonLdType,
-  "name": "Astro-VitePress",
-  "url": "https://docs.panws.top",
+  "name": siteConfig.name,
+  "url": siteConfig.url,
 };
 
 if (jsonLdType === 'WebSite') {
@@ -41,7 +41,7 @@ if (jsonLdType === 'WebSite') {
     "inLanguage": lang,
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://docs.panws.top/search?q={search_term_string}",
+      "target": `${siteConfig.url}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
   };
@@ -50,23 +50,27 @@ if (jsonLdType === 'WebSite') {
     ...jsonLd,
     "headline": title,
     "description": description,
-    "author": { "@type": "Person", "name": "scenlinx" },
+    "author": { "@type": "Person", "name": siteConfig.author },
     "publisher": {
       "@type": "Organization",
-      "name": "Astro-VitePress",
-      "url": "https://docs.panws.top",
+      "name": siteConfig.name,
+      "url": siteConfig.url,
       "logo": {
         "@type": "ImageObject",
-        "url": "https://docs.panws.top/favicon.svg"
+        "url": `${siteConfig.url}/favicon.svg`
       }
     },
     "datePublished": date || new Date().toISOString(),
     "dateModified": date || new Date().toISOString(),
     "inLanguage": lang,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": url,
+    },
     "isPartOf": {
       "@type": "WebSite",
-      "name": "Astro-VitePress",
-      "url": "https://docs.panws.top"
+      "name": siteConfig.name,
+      "url": siteConfig.url
     }
   };
 }
@@ -76,31 +80,33 @@ const jsonLdStr = JSON.stringify(jsonLd);
 
 <meta name="description" content={description}>
 <meta name="keywords" content={keywords}>
-<meta name="author" content="scenlinx">
+<meta name="author" content={siteConfig.author}>
 
 <!-- Open Graph -->
 <meta property="og:title" content={ogTitle}>
 <meta property="og:description" content={description}>
 <meta property="og:type" content={type}>
 <meta property="og:url" content={url}>
-<meta property="og:site_name" content="Astro-VitePress">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content={siteConfig.name}>
+<meta property="og:locale" content={siteConfig.locale}>
 <meta property="og:image" content={ogImage}>
-<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content={ogTitle}>
 <meta name="twitter:description" content={description}>
 <meta name="twitter:image" content={ogImage}>
-<meta name="twitter:creator" content="@scenlinx">
-<meta name="twitter:site" content="@scenlinx">
+<meta name="twitter:creator" content={siteConfig.twitter}>
+<meta name="twitter:site" content={siteConfig.twitter}>
 
-<!-- Canonical (only once) -->
+<!-- Canonical -->
 <link rel="canonical" href={url}>
 
 <!-- JSON-LD -->
-<script type="application/ld+json" set:html={jsonLdStr}></script>
+<script type="application/ld+json">{jsonLdStr}</script>
 
 <!-- 预加载关键资源 -->
 <link rel="preload" as="style" href="/style.css">

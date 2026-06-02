@@ -1,14 +1,14 @@
 ---
 // SearchModal.astro — 搜索弹窗组件（HTML + 客户端交互脚本）
+import SearchIcon from './icons/SearchIcon.astro';
 ---
 <!-- Search modal -->
 <div class="search-overlay" id="searchOverlay">
   <div class="search-modal">
     <div class="search-input-wrap">
-      <svg class="search-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
+      <span class="search-modal-icon">
+        <SearchIcon />
+      </span>
       <input type="text" class="search-input" id="searchInput" placeholder="搜索文档..." autofocus>
       <button class="search-close" id="searchClose">&times;</button>
     </div>

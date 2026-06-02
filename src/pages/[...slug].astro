@@ -22,12 +22,13 @@ export async function getStaticPaths() {
           navItems,
           allPages,
           sidebarItems: buildSidebarItems(allMeta, currentFolder),
+          headings: m.headings || [],
         },
       };
     });
 }
 
-const { mod, navItems, allPages, sidebarItems } = Astro.props;
+const { mod, navItems, allPages, sidebarItems, headings } = Astro.props;
 const { Content, frontmatter } = mod;
 
 const currentIdx = allPages.findIndex(item => item.link === Astro.url.pathname.replace(/\/$/, ''));
@@ -38,6 +39,6 @@ const curNav = navConfig.find(n => n.id === currentFolder);
 const currentSection = curNav?.type === 'folder' ? curNav.text : frontmatter?.title;
 ---
 
-<MainLayout title={frontmatter.title} frontmatter={frontmatter} navItems={navItems} sidebarItems={sidebarItems} prev={prev} next={next} slug={Astro.params.slug} currentSection={currentSection}>
+<MainLayout title={frontmatter.title} frontmatter={frontmatter} navItems={navItems} sidebarItems={sidebarItems} prev={prev} next={next} slug={Astro.params.slug} currentSection={currentSection} headings={headings}>
   <Content />
 </MainLayout>

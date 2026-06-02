@@ -1,10 +1,11 @@
 import { loadAllDocsMeta, buildAllPages } from '../config/docs';
+import { siteConfig } from '../config/site';
 
 export async function GET() {
   const { allMeta } = await loadAllDocsMeta();
   const allPages = buildAllPages(allMeta);
 
-  const baseUrl = 'https://docs.panws.top';
+  const baseUrl = siteConfig.url;
   const today = new Date().toISOString().split('T')[0];
 
   const urls = [

@@ -1,7 +1,7 @@
 import { navConfig } from './site';
 import { DocsCache } from '../utils/cache';
 
-export interface NavItem {
+export interface NavLink {
   text: string;
   link: string;
 }
@@ -16,11 +16,22 @@ export interface DocMeta {
   path: string;
   slug: string;
   frontmatter: Record<string, any>;
+  headings?: { depth: number; slug: string; text: string }[];
 }
 
 export const cleanSlug = (p: string): string =>
   p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
 
+// ---- 模块级公共辅助函数（避免重复定义） ----
+const toSidebarItem = (m: DocMeta): SidebarItem => ({
+  text: m.frontmatter?.title || '',
+  link: `/${m.slug}`,
+  order: m.frontmatter?.order ?? 999,
+});
+
+const sortByOrder = (a: SidebarItem, b: SidebarItem) => a.order - b.order;
+
+// ---- 公共 API ----
 export async function loadAllDocsMeta(): Promise<{ allMeta: DocMeta[]; modules: Record<string, any> }> {
   return DocsCache.getOrCompute('docs-meta', async () => {
     const docsGlob = import.meta.glob('/docs/**/*.md');
@@ -33,20 +44,24 @@ export async function loadAllDocsMeta(): Promise<{ allMeta: DocMeta[]; modules: 
     
     const results = await Promise.all(promises);
     
-    const allMeta: DocMeta[] = results.map(r => ({
-      path: r.path,
-      slug: r.slug,
-      frontmatter: r.frontmatter
-    }));
-    
+    // 一次遍历完成数据重组
+    const allMeta: DocMeta[] = [];
     const modules: Record<string, any> = {};
-    results.forEach(r => { modules[r.path] = r.module; });
+    for (const r of results) {
+      allMeta.push({
+        path: r.path,
+        slug: r.slug,
+        frontmatter: r.frontmatter,
+        headings: r.module?.getHeadings?.() || [],
+      });
+      modules[r.path] = r.module;
+    }
     
     return { allMeta, modules };
   });
 }
 
-export function buildNavItems(allMeta: DocMeta[]): NavItem[] {
+export function buildNavItems(allMeta: DocMeta[]): NavLink[] {
   return navConfig.map(item => {
     if (item.type === 'folder') {
       const pages = allMeta.filter(m => m.path.startsWith(`/docs/${item.id}/`));
@@ -59,19 +74,13 @@ export function buildNavItems(allMeta: DocMeta[]): NavItem[] {
 }
 
 export function buildAllPages(allMeta: DocMeta[]): SidebarItem[] {
-  const toSidebar = (m: DocMeta): SidebarItem => ({
-    text: m.frontmatter?.title || '',
-    link: `/${m.slug}`,
-    order: m.frontmatter?.order ?? 999,
-  });
-  const sortSidebar = (a: SidebarItem, b: SidebarItem) => a.order - b.order;
   const pages: SidebarItem[] = [];
   navConfig.forEach(item => {
     if (item.type === 'folder') {
-      const ps = allMeta.filter(m => m.path.startsWith(`/docs/${item.id}/`)).map(toSidebar).sort(sortSidebar);
+      const ps = allMeta.filter(m => m.path.startsWith(`/docs/${item.id}/`)).map(toSidebarItem).sort(sortByOrder);
       pages.push(...ps);
     } else if (item.type === 'page' && item.id !== '/') {
-      const ps = allMeta.filter(m => m.slug === item.id).map(toSidebar);
+      const ps = allMeta.filter(m => m.slug === item.id).map(toSidebarItem);
       pages.push(...ps);
     }
   });
@@ -79,20 +88,12 @@ export function buildAllPages(allMeta: DocMeta[]): SidebarItem[] {
 }
 
 export function buildSidebarItems(allMeta: DocMeta[], currentFolder: string): SidebarItem[] {
-  const currentNav = navConfig.find(item =>
-    item.type === 'folder' ? item.id === currentFolder : item.id === currentFolder,
-  );
-  const toSidebar = (m: DocMeta): SidebarItem => ({
-    text: m.frontmatter?.title || '',
-    link: `/${m.slug}`,
-    order: m.frontmatter?.order ?? 999,
-  });
-  const sortSidebar = (a: SidebarItem, b: SidebarItem) => a.order - b.order;
+  const currentNav = navConfig.find(item => item.id === currentFolder);
   if (currentNav?.type === 'folder') {
-    return allMeta.filter(m => m.path.startsWith(`/docs/${currentFolder}/`)).map(toSidebar).sort(sortSidebar);
+    return allMeta.filter(m => m.path.startsWith(`/docs/${currentFolder}/`)).map(toSidebarItem).sort(sortByOrder);
   }
   return allMeta
     .filter(m => m.path.split('/')[2]?.indexOf('.') !== -1 && !m.path.endsWith('/index.md'))
-    .map(toSidebar)
-    .sort(sortSidebar);
+    .map(toSidebarItem)
+    .sort(sortByOrder);
 }

@@ -10,3 +10,17 @@ export const navConfig: NavItem[] = [
   { type: 'folder', id: 'config', text: '配置' },
   { type: 'page', id: 'about', text: '关于' },
 ];
+
+// ---- 站点元信息集中管理 ----
+export const siteConfig = {
+  name: 'Astro-VitePress',
+  url: 'https://docs.panws.top',
+  author: 'scenlinx',
+  description: 'Astro-VitePress 是基于 Astro 的 仿VitePress 主题',
+  keywords: 'Astro-VitePress, Astro, 静态网站, 文档生成器',
+  lang: 'zh-CN',
+  locale: 'zh_CN',
+  twitter: '@scenlinx',
+  github: 'https://github.com/scenlinx/astro-vitepress',
+  ogImage: '/og-image.png',
+} as const;

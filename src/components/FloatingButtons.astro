@@ -1,5 +1,7 @@
 ---
 // FloatingButtons.astro — 浮动按钮组件（搜索按钮 + 返回顶部按钮）
+import SearchIcon from './icons/SearchIcon.astro';
+
 export interface Props {
   showBackToTop?: boolean;
 }
@@ -9,10 +11,7 @@ const { showBackToTop = false } = Astro.props;
 
 <!-- Floating search button -->
 <button class="search-btn-floating" id="searchBtnFloating" aria-label="Search">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <circle cx="11" cy="11" r="8"/>
-    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-  </svg>
+  <SearchIcon />
 </button>
 
 {showBackToTop && (
@@ -32,11 +31,18 @@ const { showBackToTop = false } = Astro.props;
     (window as any).__openSearch?.();
   });
 
+  let floatingTicking = false;
   window.addEventListener('scroll', () => {
-    const show = window.scrollY > 300;
-    searchBtnFloating?.classList.toggle('visible', show);
-    backToTop?.classList.toggle('visible', show);
-  });
+    if (!floatingTicking) {
+      requestAnimationFrame(() => {
+        const show = window.scrollY > 300;
+        searchBtnFloating?.classList.toggle('visible', show);
+        backToTop?.classList.toggle('visible', show);
+        floatingTicking = false;
+      });
+      floatingTicking = true;
+    }
+  }, { passive: true });
 
   backToTop?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

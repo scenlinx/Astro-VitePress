@@ -1,0 +1,47 @@
+---
+// NavBar.astro — 公共导航栏组件
+import ThemeToggle from './ThemeToggle.astro';
+import GitHubLink from './GitHubLink.astro';
+import DesktopSearchBtn from './DesktopSearchBtn.astro';
+import { siteConfig } from '../config/site';
+
+export interface Props {
+  navItems?: { text: string; link: string }[];
+  currentPath: string;
+}
+
+const { navItems = [], currentPath } = Astro.props;
+---
+
+<nav class="nav">
+  <div class="nav-container">
+    <div class="nav-left">
+      <a href="/" class="nav-logo">
+        <img src="/nav-logo.svg" alt="Logo" width="24" height="24" loading="lazy" />
+        <span>{siteConfig.name}</span>
+      </a>
+      <button class="hamburger-nav" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="5" r="1.5"/>
+          <circle cx="12" cy="12" r="1.5"/>
+          <circle cx="12" cy="19" r="1.5"/>
+        </svg>
+      </button>
+    </div>
+    <div class="nav-right">
+      <DesktopSearchBtn />
+      <div class="nav-links">
+        {navItems.map(item => (
+          <a 
+            href={item.link} 
+            class:list={['nav-link', { active: currentPath === item.link }]}
+          >
+            {item.text}
+          </a>
+        ))}
+      </div>
+      <ThemeToggle />
+      <GitHubLink />
+    </div>
+  </div>
+</nav>

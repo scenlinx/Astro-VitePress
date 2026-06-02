@@ -9,7 +9,9 @@ const homeFm = homeEntry?.frontmatter || {};
 ---
 
 <HomeLayout 
-  title={homeFm.title || 'Astro-VitePress'} 
+  title={homeFm.title || 'Astro-VitePress'}
+  description={homeFm.heroDesc || homeFm.description}
+  keywords={homeFm.keywords}
   navItems={navItems}
 >
   <div class="home">

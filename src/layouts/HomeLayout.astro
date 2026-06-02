@@ -1,20 +1,21 @@
 ---
 import SEOMeta from '../components/SEOMeta.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import GitHubLink from '../components/GitHubLink.astro';
-import DesktopSearchBtn from '../components/DesktopSearchBtn.astro';
+import NavBar from '../components/NavBar.astro';
 import NavDrawer from '../components/NavDrawer.astro';
+import Footer from '../components/Footer.astro';
 import FloatingButtons from '../components/FloatingButtons.astro';
 import SearchModal from '../components/SearchModal.astro';
 import ThemeScript from '../components/ThemeScript.astro';
-import '../utils/lazy-loading';
+import { siteConfig } from '../config/site';
 
 interface Props {
   title: string;
+  description?: string;
+  keywords?: string;
   navItems?: { text: string; link: string }[];
 }
 
-const { title, navItems = [] } = Astro.props;
+const { title, description = siteConfig.description, keywords = siteConfig.keywords, navItems = [] } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -25,79 +26,51 @@ const currentPath = Astro.url.pathname;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <SEOMeta 
     title={title}
+    description={description}
+    keywords={keywords}
     type="website"
-    url="https://docs.panws.top"
+    url={siteConfig.url}
     jsonLdType="WebSite"
   />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
-  <title>{title}</title>
+  <title>{title} | {siteConfig.name}</title>
   <link rel="stylesheet" href="/style.css">
-  <!-- 预加载下一页 -->
-  <link rel="prefetch" href="/guide/quickstart">
+  {navItems.length > 0 && navItems[0].link !== '/' && (
+    <link rel="prefetch" href={navItems[0].link}>
+  )}
 </head>
 <body class="home-page">
-  <nav class="nav">
-    <div class="nav-container">
-      <div class="nav-left">
-        <a href="/" class="nav-logo">
-          <img src="/nav-logo.svg" alt="Logo" width="24" height="24" />
-          <span>Astro-VitePress</span>
-        </a>
-        <button class="hamburger-nav" aria-label="Menu">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="5" r="1.5"/>
-            <circle cx="12" cy="12" r="1.5"/>
-            <circle cx="12" cy="19" r="1.5"/>
-          </svg>
-        </button>
-      </div>
-      <div class="nav-right">
-        <DesktopSearchBtn />
-        <div class="nav-links">
-          {navItems.map(item => (
-            <a 
-              href={item.link} 
-              class:list={['nav-link', { active: currentPath === item.link }]}
-            >
-              {item.text}
-            </a>
-          ))}
-        </div>
-        <ThemeToggle />
-        <GitHubLink />
-      </div>
-    </div>
-  </nav>
-
+  <NavBar navItems={navItems} currentPath={currentPath} />
   <NavDrawer navItems={navItems} currentPath={currentPath} />
-
   <div class="sidebar-overlay"></div>
 
   <main class="main home-main">
     <slot />
   </main>
 
-  <footer class="footer">
-    <p>Astro-VitePress — 基于 Astro 的 仿VitePress 主题</p>
-    <p class="footer-meta">
-      <a href="https://github.com/scenlinx/astro-vitepress" target="_blank" rel="noopener">astro-vitepress</a>
-      · 由 <a href="https://github.com/scenlinx" target="_blank" rel="noopener">scenlinx</a> 构建
-      · MIT License
-    </p>
-  </footer>
+  <Footer />
 
   <FloatingButtons />
   <SearchModal />
   <ThemeScript />
 
   <script>
+    let ticking = false;
     const nav = document.querySelector('.nav');
     const searchBtnFloating = document.getElementById('searchBtnFloating');
     window.addEventListener('scroll', () => {
-      nav?.classList.toggle('scrolled', window.scrollY > 0);
-      searchBtnFloating?.classList.toggle('visible', window.scrollY > 300);
-    });
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrolled = window.scrollY > 0;
+          const showFloating = window.scrollY > 300;
+          nav?.classList.toggle('scrolled', scrolled);
+          searchBtnFloating?.classList.toggle('visible', showFloating);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
   </script>
 </body>
 </html>

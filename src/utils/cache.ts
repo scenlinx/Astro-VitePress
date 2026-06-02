@@ -14,27 +14,4 @@ export class DocsCache {
     this.cache.set(key, { data: result, timestamp: Date.now() });
     return result;
   }
-  
-  static clear() {
-    this.cache.clear();
-    if (import.meta.env.DEV) console.log('🗑️ 缓存已清除');
-  }
-  
-  static has(key: string): boolean {
-    return this.cache.has(key);
-  }
-  
-  static clearExpired() {
-    const now = Date.now();
-    let cleared = 0;
-    this.cache.forEach((value, key) => {
-      if (now - value.timestamp >= this.TTL) {
-        this.cache.delete(key);
-        cleared++;
-      }
-    });
-    if (cleared > 0 && import.meta.env.DEV) {
-      console.log(`🗑️ 清除了 ${cleared} 个过期缓存`);
-    }
-  }
 }
