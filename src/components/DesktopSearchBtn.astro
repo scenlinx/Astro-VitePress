@@ -9,7 +9,10 @@ import SearchIcon from './icons/SearchIcon.astro';
 </button>
 
 <script>
-  document.getElementById('desktopSearchBtn')?.addEventListener('click', () => {
-    (window as any).__openSearch?.();
-  });
+  var btn = document.getElementById('desktopSearchBtn');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      if (window.__openSearch) window.__openSearch();
+    });
+  }
 </script>

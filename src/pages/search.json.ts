@@ -9,9 +9,12 @@ export async function GET() {
     let content = '';
     try {
       const mod = modules[m.path];
-      const raw = typeof mod?.compiledContent === 'function'
-        ? String(mod.compiledContent())
-        : String(mod?.rawContent ?? '');
+      let raw: string;
+      if (typeof mod?.compiledContent === 'function') {
+        raw = String(await mod.compiledContent());
+      } else {
+        raw = String(mod?.rawContent ?? '');
+      }
       content = raw.replace(/[#*`\[\]()>|\\]/g, ' ').trim();
     } catch {
       content = m.frontmatter?.description || '';

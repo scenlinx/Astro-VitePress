@@ -1,5 +1,6 @@
 ---
 import SEOMeta from '../components/SEOMeta.astro';
+import ThemeInit from '../components/ThemeInit.astro';
 import NavBar from '../components/NavBar.astro';
 import NavDrawer from '../components/NavDrawer.astro';
 import Footer from '../components/Footer.astro';
@@ -7,6 +8,7 @@ import FloatingButtons from '../components/FloatingButtons.astro';
 import SearchModal from '../components/SearchModal.astro';
 import ThemeScript from '../components/ThemeScript.astro';
 import { siteConfig } from '../config/site';
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -24,6 +26,7 @@ const currentPath = Astro.url.pathname;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <ThemeInit />
   <SEOMeta 
     title={title}
     description={description}
@@ -31,11 +34,11 @@ const currentPath = Astro.url.pathname;
     type="website"
     url={siteConfig.url}
     jsonLdType="WebSite"
+    isHome={true}
   />
   <link rel="icon" type="image/svg+xml" href={siteConfig.favicon}>
   <link rel="apple-touch-icon" href={siteConfig.appleTouchIcon}>
-  <title>{title} | {siteConfig.name}</title>
-  <link rel="stylesheet" href={siteConfig.stylesheet}>
+  <title>{siteConfig.name} — {siteConfig.description}</title>
   {navItems.length > 0 && navItems[0].link !== '/' && (
     <link rel="prefetch" href={navItems[0].link}>
   )}

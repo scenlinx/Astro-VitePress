@@ -2,6 +2,8 @@
 // SearchModal.astro — 搜索弹窗组件（HTML + 客户端交互脚本）
 import SearchIcon from './icons/SearchIcon.astro';
 import { siteConfig } from '../config/site';
+
+const searchIndexUrl = siteConfig.searchIndex;
 ---
 <!-- Search modal -->
 <div class="search-overlay" id="searchOverlay">
@@ -17,73 +19,82 @@ import { siteConfig } from '../config/site';
   </div>
 </div>
 
-<script>
-  let searchIndex: any[] = [];
+<script define:vars={{ searchIndexUrl }}>
+  let searchIndex = [];
   const searchOverlay = document.getElementById('searchOverlay');
-  const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
+  const searchInput = document.getElementById('searchInput');
   const searchResults = document.getElementById('searchResults');
   const searchClose = document.getElementById('searchClose');
 
-  function highlight(text: string, query: string): string {
+  function highlight(text, query) {
     if (!text) return '';
-    const idx = text.toLowerCase().indexOf(query);
+    var idx = text.toLowerCase().indexOf(query);
     if (idx === -1) return text;
     return text.slice(0, idx) + '<mark>' + text.slice(idx, idx + query.length) + '</mark>' + text.slice(idx + query.length);
   }
 
-  (window as any).__openSearch = () => {
-    if (!searchOverlay) return;
-    searchOverlay.classList.add('open');
-    searchInput?.focus();
-    if (searchIndex.length === 0) {
-      fetch('{siteConfig.searchIndex}')
-        .then(r => r.json())
-        .then((data: any[]) => { searchIndex = data; })
-        .catch(() => {});
-    }
-  };
+  var searchLoading = false;
 
-  (window as any).__closeSearch = () => {
-    searchOverlay?.classList.remove('open');
-    if (searchInput) searchInput.value = '';
-    if (searchResults) searchResults.innerHTML = '';
-  };
-
-  searchClose?.addEventListener('click', (window as any).__closeSearch);
-  searchOverlay?.addEventListener('click', (e) => {
-    if (e.target === searchOverlay) (window as any).__closeSearch();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') (window as any).__closeSearch();
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      if (searchOverlay?.classList.contains('open')) {
-        (window as any).__closeSearch();
-      } else {
-        (window as any).__openSearch();
-      }
-    }
-  });
-
-  searchInput?.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
+  function doSearch() {
+    var q = (searchInput && searchInput.value || '').trim().toLowerCase();
     if (!q || searchIndex.length === 0) {
       if (searchResults) searchResults.innerHTML = '';
       return;
     }
-    const matches = searchIndex.filter((item: any) =>
-      item.title.toLowerCase().includes(q) ||
-      item.description.toLowerCase().includes(q) ||
-      item.content.toLowerCase().includes(q)
-    ).slice(0, 10);
+    var matches = searchIndex.filter(function(item) {
+      return item.title.toLowerCase().indexOf(q) !== -1 ||
+        item.description.toLowerCase().indexOf(q) !== -1 ||
+        item.content.toLowerCase().indexOf(q) !== -1;
+    }).slice(0, 10);
     if (searchResults) {
-      searchResults.innerHTML = matches.map((item: any) =>
-        `<a href="${item.url}" class="search-result-item" onclick="document.getElementById('searchOverlay')?.classList.remove('open')">
-          <span class="search-result-title">${highlight(item.title, q)}</span>
-          <span class="search-result-desc">${highlight(item.description, q)}</span>
-        </a>`
-      ).join('') || '<div class="search-result-empty">未找到相关结果</div>';
+      searchResults.innerHTML = matches.map(function(item) {
+        return '<a href="' + item.url + '" class="search-result-item" onclick="document.getElementById(\'searchOverlay\').classList.remove(\'open\')">' +
+          '<span class="search-result-title">' + highlight(item.title, q) + '</span>' +
+          '<span class="search-result-desc">' + highlight(item.description, q) + '</span>' +
+        '</a>';
+      }).join('') || '<div class="search-result-empty">未找到相关结果</div>';
+    }
+  }
+
+  window.__openSearch = function() {
+    if (!searchOverlay) return;
+    searchOverlay.classList.add('open');
+    if (searchInput) searchInput.focus();
+    if (searchIndex.length === 0 && !searchLoading) {
+      searchLoading = true;
+      fetch(searchIndexUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          searchIndex = data;
+          searchLoading = false;
+          doSearch();
+        })
+        .catch(function() { searchLoading = false; });
+    }
+  };
+
+  window.__closeSearch = function() {
+    if (searchOverlay) searchOverlay.classList.remove('open');
+    if (searchInput) searchInput.value = '';
+    if (searchResults) searchResults.innerHTML = '';
+  };
+
+  if (searchClose) searchClose.addEventListener('click', window.__closeSearch);
+  if (searchOverlay) searchOverlay.addEventListener('click', function(e) {
+    if (e.target === searchOverlay) window.__closeSearch();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.__closeSearch();
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      if (searchOverlay && searchOverlay.classList.contains('open')) {
+        window.__closeSearch();
+      } else {
+        window.__openSearch();
+      }
     }
   });
+
+  if (searchInput) searchInput.addEventListener('input', doSearch);
 </script>

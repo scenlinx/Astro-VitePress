@@ -1,0 +1,13 @@
+---
+// ThemeInit.astro — 主题初始化脚本，放在 <head> 内同步执行，防止暗色模式闪烁
+---
+<script is:inline>
+  (function() {
+    var theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.classList.add(theme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>

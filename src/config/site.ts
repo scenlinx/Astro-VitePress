@@ -31,9 +31,6 @@ export const siteConfig = {
   navLogo: '/nav-logo.svg',
   heroLogo: '/hero-logo.svg',
 
-  // 样式
-  stylesheet: '/style.css',
-
   // 首页默认链接
   defaultHeroLink: '/guide/quickstart',
 

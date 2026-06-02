@@ -11,6 +11,7 @@ export interface Props {
   date?: string;
   jsonLdType?: 'WebSite' | 'Article';
   lang?: string;
+  isHome?: boolean;
 }
 
 const {
@@ -22,10 +23,12 @@ const {
   date,
   jsonLdType = 'WebSite',
   lang = siteConfig.lang,
+  isHome = false,
 } = Astro.props;
 
-const ogTitle = `${title} | ${siteConfig.name}`;
-const ogImage = `${siteConfig.url}${siteConfig.ogImage}`;
+// 首页直接用品牌名，内页用 "文档标题 | 品牌名"
+const seoTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
+const ogImage = `${siteConfig.url}/og-image.png`;
 
 let jsonLd: Record<string, any> = {
   "@context": "https://schema.org",
@@ -44,6 +47,7 @@ if (jsonLdType === 'WebSite') {
       "target": `${siteConfig.url}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
+    // Note: 客户端搜索在搜索弹窗中, 无服务端搜索页
   };
 } else if (jsonLdType === 'Article') {
   jsonLd = {
@@ -83,7 +87,7 @@ const jsonLdStr = JSON.stringify(jsonLd);
 <meta name="author" content={siteConfig.author}>
 
 <!-- Open Graph -->
-<meta property="og:title" content={ogTitle}>
+<meta property="og:title" content={seoTitle}>
 <meta property="og:description" content={description}>
 <meta property="og:type" content={type}>
 <meta property="og:url" content={url}>
@@ -92,11 +96,11 @@ const jsonLdStr = JSON.stringify(jsonLd);
 <meta property="og:image" content={ogImage}>
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:type" content="image/png">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content={ogTitle}>
+<meta name="twitter:title" content={seoTitle}>
 <meta name="twitter:description" content={description}>
 <meta name="twitter:image" content={ogImage}>
 <meta name="twitter:creator" content={siteConfig.twitter}>
@@ -106,8 +110,6 @@ const jsonLdStr = JSON.stringify(jsonLd);
 <link rel="canonical" href={url}>
 
 <!-- JSON-LD -->
-<script type="application/ld+json">{jsonLdStr}</script>
+<script type="application/ld+json" set:html={jsonLdStr}></script>
 
-<!-- 预加载关键资源 -->
-<link rel="preload" as="style" href={siteConfig.stylesheet}>
 <link rel="preconnect" href="https://github.com">

@@ -16,7 +16,9 @@ export async function GET() {
     ...allPages.map((p) => {
       const slug = p.link.replace(/^\//, '');
       const lastmod = dateMap.get(slug) || today;
-      return `  <url><loc>${baseUrl}${p.link}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`;
+      const depth = slug.split('/').length;
+      const priority = depth <= 1 ? '0.9' : depth === 2 ? '0.8' : '0.7';
+      return `  <url><loc>${baseUrl}${p.link}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>${priority}</priority></url>`;
     }),
   ];
 

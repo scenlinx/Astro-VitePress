@@ -24,27 +24,31 @@ const { showBackToTop = false } = Astro.props;
 )}
 
 <script>
-  const searchBtnFloating = document.getElementById('searchBtnFloating');
-  const backToTop = document.querySelector('.back-to-top');
+  var searchBtnFloating = document.getElementById('searchBtnFloating');
+  var backToTop = document.querySelector('.back-to-top');
 
-  searchBtnFloating?.addEventListener('click', () => {
-    (window as any).__openSearch?.();
-  });
+  if (searchBtnFloating) {
+    searchBtnFloating.addEventListener('click', function() {
+      if (window.__openSearch) window.__openSearch();
+    });
+  }
 
-  let floatingTicking = false;
-  window.addEventListener('scroll', () => {
+  var floatingTicking = false;
+  window.addEventListener('scroll', function() {
     if (!floatingTicking) {
-      requestAnimationFrame(() => {
-        const show = window.scrollY > 300;
-        searchBtnFloating?.classList.toggle('visible', show);
-        backToTop?.classList.toggle('visible', show);
+      requestAnimationFrame(function() {
+        var show = window.scrollY > 300;
+        if (searchBtnFloating) searchBtnFloating.classList.toggle('visible', show);
+        if (backToTop) backToTop.classList.toggle('visible', show);
         floatingTicking = false;
       });
       floatingTicking = true;
     }
   }, { passive: true });
 
-  backToTop?.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  if (backToTop) {
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 </script>

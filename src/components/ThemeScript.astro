@@ -1,22 +1,14 @@
 ---
-// ThemeScript.astro — 暗色主题切换脚本
+// ThemeScript.astro — 主题切换事件绑定（在 <body> 底部执行）
 ---
 <script>
-  const html = document.documentElement;
-
-  // 初始化主题
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    html.classList.add(savedTheme);
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    html.classList.add('dark');
-  }
-
-  function toggleTheme() {
-    html.classList.toggle('dark');
-    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : '');
-  }
-
-  document.querySelector('.theme-toggle')?.addEventListener('click', toggleTheme);
-  document.querySelector('.drawer-theme-toggle')?.addEventListener('click', toggleTheme);
+  (function() {
+    var html = document.documentElement;
+    function toggleTheme() {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : '');
+    }
+    document.querySelector('.theme-toggle')?.addEventListener('click', toggleTheme);
+    document.querySelector('.drawer-theme-toggle')?.addEventListener('click', toggleTheme);
+  })();
 </script>

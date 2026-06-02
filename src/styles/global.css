@@ -1,26 +1,17 @@
 :root {
-  /* Brand */
   --primary-color: #646cff;
   --primary-hover: #535bf2;
   --primary-bg: rgba(100, 108, 255, 0.1);
   --gradient-brand: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
-  /* Text */
   --text-color: #213547;
   --text-color-light: #64748b;
   --text-color-code: #e879f9;
-
-  /* Background */
   --bg-color: #ffffff;
   --sidebar-bg: #f8fafc;
   --border-color: #e2e8f0;
   --code-bg: #f1f5f9;
-
-  /* Overlay & Shadow */
   --overlay-bg: rgba(0,0,0,0.3);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
-
-  /* Typography */
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   --font-mono: 'Fira Code', 'Fira Mono', monospace;
   --font-size-xs: 12px;
@@ -38,8 +29,6 @@
   --font-weight-bold: 700;
   --line-height: 1.6;
   --letter-spacing-wide: 0.08em;
-
-  /* Layout */
   --nav-height: 64px;
   --nav-height-mobile: 56px;
   --sub-nav-height: 48px;
@@ -52,29 +41,21 @@
   --container-padding-mobile: 0 16px;
   --main-padding: 48px 48px 0 48px;
   --main-padding-mobile: 24px;
-
-  /* Z-index */
   --z-nav: 90;
   --z-drawer: 100;
   --z-sidebar: 99;
   --z-overlay: 98;
   --z-sub-nav: 50;
   --z-negative: -1;
-
-  /* Transition */
   --transition-fast: 0.2s ease;
   --transition-drawer: 0.2s ease;
   --transition-fade: 0.2s ease;
-
-  /* Spacing: gap */
   --gap-xs: 2px;
   --gap-sm: 6px;
   --gap-md: 8px;
   --gap-lg: 12px;
   --gap-xl: 24px;
   --gap-2xl: 32px;
-
-  /* Spacing: padding */
   --pad-xs: 4px;
   --pad-sm: 6px;
   --pad-md: 8px;
@@ -84,8 +65,6 @@
   --pad-3xl: 32px;
   --pad-4xl: 48px;
   --pad-5xl: 64px;
-
-  /* Spacing: margin */
   --margin-xs: 4px;
   --margin-sm: 8px;
   --margin-md: 12px;
@@ -95,26 +74,18 @@
   --margin-3xl: 40px;
   --margin-4xl: 48px;
   --margin-5xl: 64px;
-
-  /* Icon sizes */
   --icon-sm: 20px;
   --icon-md: 22px;
   --icon-lg: 24px;
   --icon-xl: 64px;
   --icon-logo: 120px;
-
-  /* Button / back-to-top */
   --back-top-size: 40px;
-
-  /* Border radius */
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 24px;
   --radius-full: 50%;
-
-  /* Misc */
   --scroll-margin: 80px;
   --opacity-faded: 0.7;
 }
@@ -126,7 +97,6 @@
   --sidebar-bg: #0d101a;
   --border-color: #232a33;
   --code-bg: #1e293b;
-
 }
 
 * {
@@ -660,7 +630,6 @@ pre code {
   color: var(--primary-color);
 }
 
-/* Nav drawer button (three dots) */
 .hamburger-nav {
   display: none;
   background: none;
@@ -681,7 +650,6 @@ pre code {
   height: var(--icon-md);
 }
 
-/* Sub navigation row */
 .sub-nav {
   display: none;
   height: var(--sub-nav-height);
@@ -708,7 +676,6 @@ pre code {
   height: var(--icon-sm);
 }
 
-/* Nav drawer (right) */
 .nav-drawer {
   display: none;
   position: fixed;
@@ -796,7 +763,6 @@ pre code {
   height: var(--icon-sm);
 }
 
-/* Back to top */
 .back-to-top {
   display: none;
   position: fixed;
@@ -855,7 +821,6 @@ pre code {
   height: var(--icon-sm);
 }
 
-/* Sidebar overlay */
 .sidebar-overlay {
   display: none;
   position: fixed;
@@ -868,7 +833,6 @@ pre code {
   display: block;
 }
 
-/* Search button in nav */
 .search-btn {
   background: none;
   border: 1px solid var(--border-color);
@@ -917,7 +881,6 @@ pre code {
   }
 }
 
-/* Search modal */
 .search-overlay {
   display: none;
   position: fixed;
@@ -1143,7 +1106,6 @@ pre code {
     font-size: var(--font-size-3xl);
   }
 
-  /* Home page mobile */
   .home-page .nav-container {
     position: relative;
     justify-content: flex-start;
