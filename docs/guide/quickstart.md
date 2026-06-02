@@ -1,69 +1,99 @@
 ---
 title: 快速开始
-description: VitePress 快速入门指南，包含安装、配置和功能特性说明
-keywords: VitePress, 指南, 快速开始, 安装, 配置, 静态网站
-date: '2026-05-31'
+description: Astro-VitePress 快速入门指南，从安装到部署全流程
+keywords: Astro-VitePress, 指南, 快速开始, 安装, 配置, 部署
+date: '2026-06-02'
 order: 1
 ---
 
 # 快速开始
 
-欢迎使用 VitePress！本指南将帮助你开始构建文档网站。
+欢迎使用 Astro-VitePress！本指南将帮助你快速搭建文档网站。
+
+## 前置要求
+
+- **Node.js** ≥ 18.0
+- **npm** 或 **pnpm**
 
 ## 安装
 
-首先，你需要安装 VitePress：
+```bash
+# 克隆项目
+git clone https://github.com/scenlinx/astro-vitepress.git
+cd astro-vitepress
+
+# 安装依赖
+npm install
+```
+
+## 启动开发服务器
 
 ```bash
-npm install -D vitepress
+npm run dev
 ```
 
-## 快速启动
+开发服务器默认在 `http://localhost:4321` 启动，支持热更新，修改文件后自动刷新。
 
-创建一个 markdown 文件并开始开发：
+## 编写文档
+
+在 `docs/` 目录下创建 `.md` 文件即可自动生成页面：
+
+```markdown
+---
+title: 我的文档
+description: 文档描述
+keywords: 关键词
+date: '2026-06-02'
+order: 1
+---
+
+# 我的文档
+
+这里是文档内容。
+```
+
+### Frontmatter 字段
+
+| 字段 | 必需 | 说明 |
+|------|------|------|
+| `title` | 是 | 页面标题，显示在侧边栏和浏览器标签 |
+| `description` | 推荐 | 页面描述，用于 SEO |
+| `keywords` | 否 | SEO 关键词 |
+| `date` | 否 | 更新日期，用于 sitemap |
+| `order` | 否 | 侧边栏排序，越小越靠前 |
+
+## 配置导航
+
+编辑 `src/config/site.ts`：
+
+```ts
+export const navConfig: NavItem[] = [
+  { type: 'page', id: '/', text: '首页' },
+  { type: 'folder', id: 'guide', text: '指南' },
+  { type: 'page', id: 'about', text: '关于' },
+];
+```
+
+`type: 'folder'` 会自动链接到该目录下 `order` 最小的页面。
+
+## 构建生产版本
 
 ```bash
-npx vitepress dev
+npm run build
 ```
 
-## 功能特性
+`dist/` 目录即为完整的静态站点。
 
-VitePress 内置了许多功能：
+## 预览构建结果
 
-- **快速**: 基于 Vite，开发体验闪电般快速
-- **Vue 驱动**: 在 markdown 中使用 Vue 组件
-- **Markdown 扩展**: 支持目录、语法高亮等
-- **主题定制**: 支持暗色模式的可定制主题
-- **SEO 友好**: 内置 SEO 优化
-
-### 开发服务器
-开发服务器支持热更新，保存文件后立即生效。
-
-### 构建优化
-VitePress 会自动进行代码分割和资源优化。
-
-## 配置
-
-创建 `vitepress.config.js` 文件来配置你的网站：
-
-```js
-export default {
-  title: '我的网站',
-  description: '一个 VitePress 网站'
-}
+```bash
+npm run preview
 ```
 
-### 导航配置
-通过 `themeConfig.nav` 配置顶部导航栏。
+## 部署
 
-### 侧边栏配置
-通过 `themeConfig.sidebar` 配置左侧导航。
+将 `dist/` 目录部署到任意静态托管服务：
 
-## 下一步
-
-现在你已经设置好 VitePress，可以：
-
-1. 添加更多页面
-2. 自定义主题
-3. 添加导航
-4. 部署你的网站
+- **Vercel** — 已内置 `vercel.json`，导入仓库即可
+- **Netlify** — 已内置 `netlify.toml`，导入仓库即可
+- **GitHub Pages**、**Cloudflare Pages** 等也完全兼容

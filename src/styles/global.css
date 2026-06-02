@@ -766,7 +766,7 @@ pre code {
 .back-to-top {
   display: none;
   position: fixed;
-  bottom: 180px;
+  bottom: 120px;
   right: var(--pad-2xl);
   width: var(--back-top-size);
   height: var(--back-top-size);
@@ -795,7 +795,7 @@ pre code {
 .search-btn-floating {
   display: none;
   position: fixed;
-  bottom: 120px;
+  bottom: 60px;
   right: var(--pad-2xl);
   width: var(--back-top-size);
   height: var(--back-top-size);

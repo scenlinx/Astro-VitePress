@@ -1,55 +1,90 @@
 ---
 title: 基础配置
-description: VitePress 基础配置说明，包括网站配置和 Frontmatter
-keywords: VitePress, 配置, 基础, Frontmatter
-date: '2026-05-31'
+description: Astro-VitePress 基础配置说明，包括导航配置和 Frontmatter
+keywords: Astro-VitePress, 配置, 基础, Frontmatter, 导航
+date: '2026-06-02'
 order: 1
 ---
 
 # 基础配置
 
-了解如何配置你的 VitePress 网站。
+了解如何配置你的 Astro-VitePress 网站。
 
-## 网站配置
+## 导航配置
 
-主要配置文件是 `vitepress.config.js`：
+编辑 `src/config/site.ts` 中的 `navConfig` 数组：
 
-```js
-export default {
-  title: '我的网站',
-  description: '一个 VitePress 网站',
-  themeConfig: {
-    nav: [
-      { text: '首页', link: '/' },
-      { text: '指南', link: '/guide' }
-    ],
-    sidebar: [
-      { text: '快速开始', link: '/guide' }
-    ]
-  }
-}
+```ts
+export const navConfig: NavItem[] = [
+  { type: 'page', id: '/', text: '首页' },
+  { type: 'folder', id: 'guide', text: '指南' },
+  { type: 'folder', id: 'config', text: '配置' },
+  { type: 'page', id: 'about', text: '关于' },
+];
 ```
 
-### 基础标题
-配置网站的基本标题和描述信息。
+### 导航类型
 
-### 主题配置
-通过 `themeConfig` 对象配置导航栏、侧边栏等。
+- `type: 'page'` — 独立页面，`id` 对应 slug
+- `type: 'folder'` — 文件夹导航，自动找到该目录下 `order` 最小的页面作为链接目标
+
+### 侧边栏
+
+侧边栏自动根据导航配置生成：
+- 当前所在的文件夹下的所有文档会显示在左侧侧边栏
+- 按 Frontmatter 中的 `order` 字段排序
+
+## 站点配置
+
+`src/config/site.ts` 中集中管理所有站点元信息：
+
+```ts
+export const siteConfig = {
+  name: 'Astro-VitePress',
+  url: 'https://docs.panws.top',
+  author: 'scenlinx',
+  description: '网站描述',
+  keywords: '关键词',
+  lang: 'zh-CN',
+};
+```
 
 ## Frontmatter
 
-使用 frontmatter 配置单个页面：
+每个 Markdown 文件通过 Frontmatter 配置页面元数据：
 
 ```yaml
 ---
 title: 页面标题
 description: 页面描述
-sidebar: false
+keywords: 关键词
+date: '2026-06-02'
+order: 1
 ---
 ```
 
 ### 常用字段
-`title`、`description`、`keywords` 是最常用的 frontmatter 字段。
 
-### 自定义字段
-可以添加任意自定义字段，在页面中通过 `frontmatter` 变量读取。
+- `title` — 页面标题，显示在侧边栏和浏览器标签
+- `description` — SEO 描述
+- `keywords` — SEO 关键词
+- `date` — 更新日期，用于 sitemap 的 lastmod
+- `order` — 侧边栏排序权重
+
+## 构建配置
+
+`astro.config.mjs` 中可配置构建选项：
+
+```js
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  site: 'https://example.com',
+  build: {
+    inlineStylesheets: 'auto',
+  },
+  markdown: {
+    syntaxHighlight: 'shiki',
+  },
+});
+```
