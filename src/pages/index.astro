@@ -18,7 +18,7 @@ const homeFm = homeEntry?.frontmatter || {};
   <div class="home">
     <div class="hero">
       <div class="logo">
-        <img src={siteConfig.heroLogo} alt="Logo" width="120" height="120" loading="lazy" decoding="async" />
+        <img src={siteConfig.heroLogo} alt="Logo" width="120" height="120" fetchpriority="high" />
       </div>
       <h1>{homeFm.heroTitle}</h1>
       <p>{homeFm.heroDesc}</p>

@@ -44,6 +44,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   )}
 </head>
 <body class="home-page">
+  <a href="#main-content" class="skip-link">跳到主要内容</a>
   <NavBar navItems={navItems} currentPath={currentPath} />
   <NavDrawer navItems={navItems} currentPath={currentPath} />
   <div class="sidebar-overlay"></div>

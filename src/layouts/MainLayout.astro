@@ -79,6 +79,7 @@ const breadcrumbJson = slug && slug !== 'index' ? (() => {
   {breadcrumbJson && <script type="application/ld+json" set:html={breadcrumbJson}></script>}
 </head>
 <body>
+  <a href="#main-content" class="skip-link">跳到主要内容</a>
   <NavBar navItems={navItems} currentPath={currentPath} />
 
   <div class="sidebar-bg"></div>
@@ -110,7 +111,7 @@ const breadcrumbJson = slug && slug !== 'index' ? (() => {
       </div>
     </aside>
 
-    <main class="main">
+    <main class="main" id="main-content">
       <slot />
       
       {frontmatter?.date && (

@@ -1128,6 +1128,23 @@ pre code {
   }
 }
 
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  z-index: 999;
+  padding: 8px 16px;
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  text-decoration: none;
+  transition: top 0.1s;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
 html {
   scroll-behavior: smooth;
 }

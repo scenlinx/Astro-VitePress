@@ -28,7 +28,7 @@ const {
 
 // 首页直接用品牌名，内页用 "文档标题 | 品牌名"
 const seoTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
-const ogImage = `${siteConfig.url}/og-image.png`;
+const ogImage = `${siteConfig.url}${siteConfig.ogImage}`;
 
 let jsonLd: Record<string, any> = {
   "@context": "https://schema.org",
