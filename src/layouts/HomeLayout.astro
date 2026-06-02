@@ -20,7 +20,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang={siteConfig.lang}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,10 +32,10 @@ const currentPath = Astro.url.pathname;
     url={siteConfig.url}
     jsonLdType="WebSite"
   />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
+  <link rel="icon" type="image/svg+xml" href={siteConfig.favicon}>
+  <link rel="apple-touch-icon" href={siteConfig.appleTouchIcon}>
   <title>{title} | {siteConfig.name}</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href={siteConfig.stylesheet}>
   {navItems.length > 0 && navItems[0].link !== '/' && (
     <link rel="prefetch" href={navItems[0].link}>
   )}

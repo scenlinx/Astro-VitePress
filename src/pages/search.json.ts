@@ -1,4 +1,5 @@
 import { loadAllDocsMeta } from '../config/docs';
+import { siteConfig } from '../config/site';
 
 export async function GET() {
   const { allMeta, modules } = await loadAllDocsMeta();

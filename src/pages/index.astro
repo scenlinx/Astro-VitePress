@@ -1,6 +1,7 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import { loadAllDocsMeta, buildNavItems } from '../config/docs';
+import { siteConfig } from '../config/site';
 
 const { allMeta } = await loadAllDocsMeta();
 const navItems = buildNavItems(allMeta);
@@ -9,7 +10,7 @@ const homeFm = homeEntry?.frontmatter || {};
 ---
 
 <HomeLayout 
-  title={homeFm.title || 'Astro-VitePress'}
+  title={homeFm.title || siteConfig.name}
   description={homeFm.heroDesc || homeFm.description}
   keywords={homeFm.keywords}
   navItems={navItems}
@@ -17,12 +18,12 @@ const homeFm = homeEntry?.frontmatter || {};
   <div class="home">
     <div class="hero">
       <div class="logo">
-        <img src="/hero-logo.svg" alt="Logo" width="120" height="120" />
+        <img src={siteConfig.heroLogo} alt="Logo" width="120" height="120" />
       </div>
       <h1>{homeFm.heroTitle}</h1>
       <p>{homeFm.heroDesc}</p>
       <div class="actions">
-        <a href={homeFm.primaryActionLink || '/guide/quickstart'} class="btn primary">{homeFm.primaryAction}</a>
+        <a href={homeFm.primaryActionLink || siteConfig.defaultHeroLink} class="btn primary">{homeFm.primaryAction}</a>
         <a href={homeFm.secondaryActionLink || '#'} target="_blank" class="btn">{homeFm.secondaryAction}</a>
       </div>
     </div>

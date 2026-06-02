@@ -1,6 +1,7 @@
 ---
 // SearchModal.astro — 搜索弹窗组件（HTML + 客户端交互脚本）
 import SearchIcon from './icons/SearchIcon.astro';
+import { siteConfig } from '../config/site';
 ---
 <!-- Search modal -->
 <div class="search-overlay" id="searchOverlay">
@@ -35,7 +36,7 @@ import SearchIcon from './icons/SearchIcon.astro';
     searchOverlay.classList.add('open');
     searchInput?.focus();
     if (searchIndex.length === 0) {
-      fetch('/search.json')
+      fetch('{siteConfig.searchIndex}')
         .then(r => r.json())
         .then((data: any[]) => { searchIndex = data; })
         .catch(() => {});

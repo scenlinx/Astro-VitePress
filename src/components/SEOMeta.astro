@@ -57,7 +57,7 @@ if (jsonLdType === 'WebSite') {
       "url": siteConfig.url,
       "logo": {
         "@type": "ImageObject",
-        "url": `${siteConfig.url}/favicon.svg`
+        "url": `${siteConfig.url}${siteConfig.favicon}`
       }
     },
     "datePublished": date || new Date().toISOString(),
@@ -109,5 +109,5 @@ const jsonLdStr = JSON.stringify(jsonLd);
 <script type="application/ld+json">{jsonLdStr}</script>
 
 <!-- 预加载关键资源 -->
-<link rel="preload" as="style" href="/style.css">
+<link rel="preload" as="style" href={siteConfig.stylesheet}>
 <link rel="preconnect" href="https://github.com">
