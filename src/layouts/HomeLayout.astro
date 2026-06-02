@@ -58,14 +58,10 @@ const currentPath = Astro.url.pathname;
   <script>
     let ticking = false;
     const nav = document.querySelector('.nav');
-    const searchBtnFloating = document.getElementById('searchBtnFloating');
     window.addEventListener('scroll', () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          const scrolled = window.scrollY > 0;
-          const showFloating = window.scrollY > 300;
-          nav?.classList.toggle('scrolled', scrolled);
-          searchBtnFloating?.classList.toggle('visible', showFloating);
+          nav?.classList.toggle('scrolled', window.scrollY > 0);
           ticking = false;
         });
         ticking = true;

@@ -22,5 +22,5 @@ export const siteConfig = {
   locale: 'zh_CN',
   twitter: '@scenlinx',
   github: 'https://github.com/scenlinx/astro-vitepress',
-  ogImage: '/og-image.png',
+  ogImage: '/og-image.svg',
 } as const;

@@ -7,15 +7,17 @@ export async function GET() {
 
   const baseUrl = siteConfig.url;
   const today = new Date().toISOString().split('T')[0];
+  // 从 frontmatter 读取日期，找不到则用今天
+  const dateMap = new Map(allMeta.map(m => [m.slug, m.frontmatter?.date]));
+  const homeDate = dateMap.get('index') || today;
 
   const urls = [
-    // 首页
-    `  <url><loc>${baseUrl}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`,
-    // 所有文档页面
-    ...allPages.map(
-      (p) =>
-        `  <url><loc>${baseUrl}${p.link}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`,
-    ),
+    `  <url><loc>${baseUrl}/</loc><lastmod>${homeDate}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`,
+    ...allPages.map((p) => {
+      const slug = p.link.replace(/^\//, '');
+      const lastmod = dateMap.get(slug) || today;
+      return `  <url><loc>${baseUrl}${p.link}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`;
+    }),
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
