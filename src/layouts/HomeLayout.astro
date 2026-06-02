@@ -18,7 +18,7 @@ interface Props {
 }
 
 const { title, description = siteConfig.description, keywords = siteConfig.keywords, navItems = [] } = Astro.props;
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
 <!DOCTYPE html>

@@ -35,6 +35,7 @@ const { navItems = [], currentPath } = Astro.props;
           <a 
             href={item.link} 
             class:list={['nav-link', { active: currentPath === item.link }]}
+            aria-current={currentPath === item.link ? 'page' : undefined}
           >
             {item.text}
           </a>

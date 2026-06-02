@@ -26,7 +26,7 @@ const { title: propTitle, frontmatter, navItems = [], sidebarItems = [], prev, n
 const title = propTitle || frontmatter?.title || siteConfig.name;
 const desc = frontmatter?.description || siteConfig.description;
 const kw = frontmatter?.keywords || siteConfig.keywords;
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const breadcrumbJson = slug && slug !== 'index' ? (() => {
   const segments = slug.split('/');
@@ -102,6 +102,7 @@ const breadcrumbJson = slug && slug !== 'index' ? (() => {
           <a 
             href={item.link} 
             class:list={['sidebar-link', { active: currentPath === item.link }]}
+            aria-current={currentPath === item.link ? 'page' : undefined}
           >
             {item.text}
           </a>
@@ -220,6 +221,25 @@ const breadcrumbJson = slug && slug !== 'index' ? (() => {
 
       sidebarOverlay?.addEventListener('click', closeSidebar);
     });
+
+    ;(function() {
+      var pres = document.querySelectorAll('.main pre');
+      pres.forEach(function(pre) {
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = '复制';
+        btn.addEventListener('click', function() {
+          var code = pre.querySelector('code');
+          var text = code ? code.textContent || '' : pre.textContent || '';
+          navigator.clipboard.writeText(text).then(function() {
+            btn.textContent = '已复制!';
+            setTimeout(function() { btn.textContent = '复制'; }, 2000);
+          });
+        });
+        pre.style.position = 'relative';
+        pre.appendChild(btn);
+      });
+    })();
   </script>
 </body>
 </html>

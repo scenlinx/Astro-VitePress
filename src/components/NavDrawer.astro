@@ -14,7 +14,7 @@ const { navItems, currentPath } = Astro.props;
 
 <div class="nav-drawer">
   {navItems.map(item => (
-    <a href={item.link} class={`nav-link ${currentPath === item.link ? 'active' : ''}`}>{item.text}</a>
+    <a href={item.link} class={`nav-link ${currentPath === item.link ? 'active' : ''}`} aria-current={currentPath === item.link ? 'page' : undefined}>{item.text}</a>
   ))}
   <div class="nav-drawer-actions">
     <a href={siteConfig.github} class="nav-gh-link" target="_blank" rel="noopener">

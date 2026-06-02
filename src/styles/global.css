@@ -1131,3 +1131,44 @@ pre code {
 html {
   scroll-behavior: smooth;
 }
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  font-size: var(--font-size-xs);
+  font-family: var(--font-sans);
+  color: var(--text-color-light);
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  line-height: 1.4;
+}
+
+pre:hover .copy-btn {
+  opacity: 1;
+}
+
+.copy-btn:hover {
+  color: var(--text-color);
+  border-color: var(--primary-color);
+}
+
+@media print {
+  .nav, .sidebar, .sidebar-right, .sub-nav,
+  .footer, .prev-next, .back-to-top, .search-btn-floating,
+  .nav-drawer, .sidebar-overlay, .search-overlay,
+  .search-btn, .search-btn-floating, .theme-toggle,
+  .nav-gh-link, .hamburger-nav, .sub-nav {
+    display: none !important;
+  }
+  .container { display: block; }
+  .main { padding: 0; }
+  body { color: #000; background: #fff; }
+  a { color: #000 !important; text-decoration: underline; }
+  pre { border: 1px solid #ccc; }
+}
