@@ -1,4 +1,5 @@
 import { navConfig } from './site';
+import { DocsCache } from '../utils/cache';
 
 export interface NavItem {
   text: string;
@@ -21,26 +22,28 @@ export const cleanSlug = (p: string): string =>
   p.replace('/docs/', '').replace(/\.md$/, '').replace(/\/index$/, '');
 
 export async function loadAllDocsMeta(): Promise<{ allMeta: DocMeta[]; modules: Record<string, any> }> {
-  const docsGlob = import.meta.glob('/docs/**/*.md');
-  const entries = Object.entries(docsGlob);
-  
-  const promises = entries.map(async ([path, loader]) => {
-    const mod = await loader();
-    return { path, slug: cleanSlug(path), frontmatter: mod.frontmatter || {}, module: mod };
+  return DocsCache.getOrCompute('docs-meta', async () => {
+    const docsGlob = import.meta.glob('/docs/**/*.md');
+    const entries = Object.entries(docsGlob);
+    
+    const promises = entries.map(async ([path, loader]) => {
+      const mod = await loader();
+      return { path, slug: cleanSlug(path), frontmatter: mod.frontmatter || {}, module: mod };
+    });
+    
+    const results = await Promise.all(promises);
+    
+    const allMeta: DocMeta[] = results.map(r => ({
+      path: r.path,
+      slug: r.slug,
+      frontmatter: r.frontmatter
+    }));
+    
+    const modules: Record<string, any> = {};
+    results.forEach(r => { modules[r.path] = r.module; });
+    
+    return { allMeta, modules };
   });
-  
-  const results = await Promise.all(promises);
-  
-  const allMeta: DocMeta[] = results.map(r => ({
-    path: r.path,
-    slug: r.slug,
-    frontmatter: r.frontmatter
-  }));
-  
-  const modules: Record<string, any> = {};
-  results.forEach(r => { modules[r.path] = r.module; });
-  
-  return { allMeta, modules };
 }
 
 export function buildNavItems(allMeta: DocMeta[]): NavItem[] {
