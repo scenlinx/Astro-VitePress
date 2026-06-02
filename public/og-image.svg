@@ -6,7 +6,6 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="#11151c"/>
-  <rect width="1200" height="4" y="626" fill="url(#g)"/>
   <g transform="translate(600,170) scale(8) translate(-12,-12)">
     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="url(#g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   </g>
