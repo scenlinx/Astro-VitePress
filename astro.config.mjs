@@ -11,7 +11,4 @@ export default defineConfig({
     syntaxHighlight: 'shiki',
   },
 
-  experimental: {
-    rustCompiler: true,
-  },
 });
