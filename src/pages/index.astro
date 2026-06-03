@@ -30,7 +30,7 @@ const homeFm = homeEntry?.frontmatter || {};
     
     {homeFm.features && (
       <div class="features">
-        {homeFm.features.map(f => (
+        {homeFm.features.map((f: { title: string; desc: string }) => (
           <div class="feature">
             <h3>{f.title}</h3>
             <p>{f.desc}</p>

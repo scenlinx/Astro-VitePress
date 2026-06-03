@@ -6,7 +6,7 @@ import { siteConfig } from '../config/site';
 const searchIndexUrl = siteConfig.searchIndex;
 ---
 <!-- Search modal -->
-<div class="search-overlay" id="searchOverlay">
+<div class="search-overlay" id="searchOverlay" data-search-index={searchIndexUrl}>
   <div class="search-modal">
     <div class="search-input-wrap">
       <span class="search-modal-icon">
@@ -19,14 +19,15 @@ const searchIndexUrl = siteConfig.searchIndex;
   </div>
 </div>
 
-<script define:vars={{ searchIndexUrl }}>
-  let searchIndex = [];
+<script>
+  let searchIndex: { title: string; description: string; content: string; url: string }[] = [];
+  const searchIndexUrl = (document.querySelector('#searchOverlay') as HTMLElement | null)?.getAttribute('data-search-index') || '/search.json';
   const searchOverlay = document.getElementById('searchOverlay');
-  const searchInput = document.getElementById('searchInput');
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
   const searchResults = document.getElementById('searchResults');
   const searchClose = document.getElementById('searchClose');
 
-  function highlight(text, query) {
+  function highlight(text: string, query: string) {
     if (!text) return '';
     var idx = text.toLowerCase().indexOf(query);
     if (idx === -1) return text;

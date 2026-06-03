@@ -39,4 +39,4 @@ export const siteConfig = {
 
   // License
   license: 'MIT License',
-} as const;
+};

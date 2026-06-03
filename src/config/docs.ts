@@ -32,9 +32,14 @@ const toSidebarItem = (m: DocMeta): SidebarItem => ({
 const sortByOrder = (a: SidebarItem, b: SidebarItem) => a.order - b.order;
 
 // ---- 公共 API ----
+type MarkdownModule = {
+  frontmatter: Record<string, any>;
+  getHeadings?: () => { depth: number; slug: string; text: string }[];
+};
+
 export async function loadAllDocsMeta(): Promise<{ allMeta: DocMeta[]; modules: Record<string, any> }> {
   return DocsCache.getOrCompute('docs-meta', async () => {
-    const docsGlob = import.meta.glob('/docs/**/*.md');
+    const docsGlob = import.meta.glob<MarkdownModule>('/docs/**/*.md');
     const entries = Object.entries(docsGlob);
     
     const promises = entries.map(async ([path, loader]) => {
