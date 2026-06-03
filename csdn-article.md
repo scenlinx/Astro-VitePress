@@ -1,32 +1,36 @@
-# Astro-VitePress：基于 Astro 5 的轻量文档站点生成器
+# Astro-VitePress：零依赖的轻量文档站方案，替代 VitePress 的极简选择
 
 > 一个只依赖 Astro 的文档站点模板，Markdown 驱动，自动处理导航、侧边栏、搜索和 SEO。
 
----
-
 ## 项目背景
 
-写文档的时候想要一个简单的静态站点，VitePress 和 Docusaurus 都很好，但我的需求比较明确：需要一个足够轻量、容易定制、便于部署的方案。于是基于 Astro 5 写了一个文档站模板。
+写文档的时候想要一个简单的静态站点，VitePress 和 Docusaurus 都很好，但我的需求比较明确：需要一个足够轻量、容易定制、便于部署的方案。于是基于 Astro 6 写了一个文档站模板。
+
+### 为什么不用 VitePress / Docusaurus？
+
+| 对比维度 | VitePress | Docusaurus | Astro-VitePress |
+|---|---|---|---|
+| 运行时依赖 | Vue + Vite | React + Webpack | 仅 Astro |
+| 输出 | SPA | SPA | 纯静态 HTML |
+| 定制成本 | 需了解 Vue | 需了解 React | 纯 Markdown + Astro 组件 |
+| 构建速度 | 快 | 较慢 | 极快（Rust 编译器） |
+| 包体积 | 中等 | 大 | 极小 |
 
 GitHub：[github.com/scenlinx/astro-vitepress](https://github.com/scenlinx/astro-vitepress)  
 在线演示：[docs.panws.top](https://docs.panws.top)
 
-![](https://docs.panws.top/image.png)
-
----
+![项目预览](https://docs.panws.top/image.png)
 
 ## 技术栈
 
 | 层 | 选型 |
 |---|---|
-| 框架 | Astro 5 |
+| 框架 | Astro 6 |
 | 样式 | 纯 CSS（CSS 自定义属性） |
 | 语法高亮 | Shiki |
 | 搜索 | 客户端全文搜索 |
 | 输出 | 纯静态 HTML |
 | 运行时依赖 | 仅 astro |
-
----
 
 ## 核心功能
 
@@ -34,7 +38,7 @@ GitHub：[github.com/scenlinx/astro-vitepress](https://github.com/scenlinx/astro
 
 `docs/` 目录下的 `.md` 文件自动映射为页面：
 
-```
+```text
 docs/index.md          → /
 docs/about.md          → /about
 docs/guide/*.md        → /guide/*
@@ -72,7 +76,7 @@ export const navConfig: NavItem[] = [
 
 搜索索引在构建时生成，客户端实时检索：
 
-```
+```text
 Ctrl+K → 加载 search.json → 输入过滤 → 关键词高亮
 ```
 
@@ -88,8 +92,6 @@ Ctrl+K → 加载 search.json → 输入过滤 → 关键词高亮
 | 768 - 1024px | 两栏（侧边栏 + 内容） |
 | < 768px | 单栏 + 抽屉导航 + 浮动按钮 |
 
----
-
 ## 快速开始
 
 ```bash
@@ -101,7 +103,7 @@ npm run dev
 
 创建文档：
 
-```markdown
+```yaml
 ---
 title: 我的页面
 description: 页面描述
@@ -123,8 +125,6 @@ npm run build
 
 内置 Vercel 和 Netlify 配置，导入仓库即可自动部署。
 
----
-
 ## 适用场景
 
 - 个人项目文档
@@ -132,11 +132,15 @@ npm run build
 - 团队内部知识库
 - 轻量技术博客
 
+## 效果预览
+
+项目实际运行截图：
+
+![文档首页](https://docs.panws.top/image.png)
+
 ## 许可证
 
 MIT License
-
----
 
 GitHub：[github.com/scenlinx/astro-vitepress](https://github.com/scenlinx/astro-vitepress)  
 在线演示：[docs.panws.top](https://docs.panws.top)

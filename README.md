@@ -5,7 +5,7 @@
 <h1 align="center">Astro-VitePress</h1>
 
 <p align="center">
-  <strong>基于 Astro 5 的零配置文档站点生成器，Markdown 驱动，极速加载</strong>
+  <strong>基于 Astro 6 的零配置文档站点生成器，Markdown 驱动，极速加载</strong>
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Astro-5.0+-BC52EE?logo=astro&logoColor=white" alt="Astro 5" />
+  <img src="https://img.shields.io/badge/Astro-5.0+-BC52EE?logo=astro&logoColor=white" alt="Astro 6" />
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License" />
   <img src="https://img.shields.io/badge/TypeScript-Ready-3178C6?logo=typescript" alt="TypeScript" />
   <img src="https://img.shields.io/badge/SEO-Friendly-FF6B6B" alt="SEO Friendly" />
@@ -31,7 +31,7 @@
 
 ## 特性
 
-- **基于 Astro 5** — 岛屿架构，默认零 JavaScript，输出纯静态 HTML
+- **基于 Astro 6** — 岛屿架构，默认零 JavaScript，输出纯静态 HTML
 - **Markdown 驱动** — 只需编写 `.md` 文件，自动生成完整文档站点
 - **零配置** — 将 Markdown 放入 `docs/` 目录，导航、侧边栏、TOC 全部自动生成
 - **SEO 完善** — 内置 Open Graph、Twitter Card、JSON-LD（Article + BreadcrumbList）
