@@ -32,9 +32,11 @@ const toSidebarItem = (m: DocMeta): SidebarItem => ({
 const sortByOrder = (a: SidebarItem, b: SidebarItem) => a.order - b.order;
 
 // ---- 公共 API ----
-type MarkdownModule = {
+export type MarkdownModule = {
   frontmatter: Record<string, any>;
   getHeadings?: () => { depth: number; slug: string; text: string }[];
+  compiledContent?: () => string | Promise<string>;
+  rawContent?: string;
 };
 
 export async function loadAllDocsMeta(): Promise<{ allMeta: DocMeta[]; modules: Record<string, any> }> {
@@ -98,7 +100,7 @@ export function buildSidebarItems(allMeta: DocMeta[], currentFolder: string): Si
     return allMeta.filter(m => m.path.startsWith(`/docs/${currentFolder}/`)).map(toSidebarItem).sort(sortByOrder);
   }
   return allMeta
-    .filter(m => m.path.split('/')[2]?.indexOf('.') !== -1 && !m.path.endsWith('/index.md'))
+    .filter(m => !m.slug.includes('/') && m.slug !== 'index')
     .map(toSidebarItem)
     .sort(sortByOrder);
 }

@@ -11,14 +11,16 @@ export async function GET() {
   const dateMap = new Map(allMeta.map(m => [m.slug, m.frontmatter?.date]));
   const homeDate = dateMap.get('index') || today;
 
+  const xmlEscape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
   const urls = [
-    `  <url><loc>${baseUrl}/</loc><lastmod>${homeDate}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`,
+    `  <url><loc>${xmlEscape(baseUrl)}/</loc><lastmod>${xmlEscape(homeDate)}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`,
     ...allPages.map((p) => {
       const slug = p.link.replace(/^\//, '');
       const lastmod = dateMap.get(slug) || today;
       const depth = slug.split('/').length;
       const priority = depth <= 1 ? '0.9' : depth === 2 ? '0.8' : '0.7';
-      return `  <url><loc>${baseUrl}${p.link}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>${priority}</priority></url>`;
+      return `  <url><loc>${xmlEscape(baseUrl)}${xmlEscape(p.link)}</loc><lastmod>${xmlEscape(lastmod)}</lastmod><changefreq>monthly</changefreq><priority>${priority}</priority></url>`;
     }),
   ];
 

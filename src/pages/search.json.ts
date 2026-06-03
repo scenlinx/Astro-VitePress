@@ -1,4 +1,4 @@
-import { loadAllDocsMeta } from '../config/docs';
+import { loadAllDocsMeta, type MarkdownModule } from '../config/docs';
 
 export async function GET() {
   const { allMeta, modules } = await loadAllDocsMeta();
@@ -7,7 +7,7 @@ export async function GET() {
   const promises = docs.map(async (m) => {
     let content = '';
     try {
-      const mod = modules[m.path];
+      const mod = modules[m.path] as MarkdownModule | undefined;
       let raw: string;
       if (typeof mod?.compiledContent === 'function') {
         raw = String(await mod.compiledContent());

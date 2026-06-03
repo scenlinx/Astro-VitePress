@@ -24,8 +24,8 @@ const { showBackToTop = false } = Astro.props;
 )}
 
 <script>
-  var searchBtnFloating = document.getElementById('searchBtnFloating');
-  var backToTop = document.querySelector('.back-to-top');
+  const searchBtnFloating = document.getElementById('searchBtnFloating');
+  const backToTop = document.querySelector('.back-to-top');
 
   if (searchBtnFloating) {
     searchBtnFloating.addEventListener('click', function() {
@@ -33,7 +33,7 @@ const { showBackToTop = false } = Astro.props;
     });
   }
 
-  var floatingTicking = false;
+  let floatingTicking = false;
   window.addEventListener('scroll', function() {
     if (!floatingTicking) {
       requestAnimationFrame(function() {
