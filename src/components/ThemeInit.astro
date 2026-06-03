@@ -1,7 +1,7 @@
 ---
 // ThemeInit.astro — 主题初始化脚本，放在 <head> 内同步执行，防止暗色模式闪烁
 ---
-<script>
+<script is:inline>
   (function() {
     var theme = localStorage.getItem('theme');
     if (theme) {

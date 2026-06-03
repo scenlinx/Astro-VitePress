@@ -76,7 +76,7 @@ const breadcrumbJson = slug && slug !== 'index' ? (() => {
   {prev && <link rel="prev" href={prev.link}>}
   {next && <link rel="next" href={next.link}>}
 
-  {breadcrumbJson && <script type="application/ld+json">{breadcrumbJson}</script>}
+  {breadcrumbJson && <script type="application/ld+json" set:html={breadcrumbJson} is:inline></script>}
 </head>
 <body>
   <a href="#main-content" class="skip-link">跳到主要内容</a>
