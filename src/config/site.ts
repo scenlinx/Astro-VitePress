@@ -15,7 +15,7 @@ export const navConfig: NavItem[] = [
 export const siteConfig = {
   // 基本信息
   name: 'Astro-VitePress',
-  url: 'https://docs.panws.top',
+  url: 'https://astro-vitepress.newmt.fun',
   author: 'scenlinx',
   description: '基于 Astro 6 的零配置文档站点生成器',
   keywords: 'Astro-VitePress, Astro, 静态网站, 文档生成器',

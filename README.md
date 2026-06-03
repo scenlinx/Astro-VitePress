@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://docs.panws.top"><strong>在线演示 →</strong></a>
+  <a href="https://astro-vitepress.newmt.fun"><strong>在线演示 →</strong></a>
   ·
   <a href="#快速开始"><strong>快速开始</strong></a>
   ·

@@ -17,9 +17,9 @@
 | 包体积 | 中等 | 大 | 极小 |
 
 GitHub：[github.com/scenlinx/astro-vitepress](https://github.com/scenlinx/astro-vitepress)  
-在线演示：[docs.panws.top](https://docs.panws.top)
+在线演示：[astro-vitepress.newmt.fun](https://astro-vitepress.newmt.fun)
 
-![项目预览](https://docs.panws.top/image.png)
+![项目预览](https://astro-vitepress.newmt.fun/image.png)
 
 ## 技术栈
 
@@ -136,11 +136,11 @@ npm run build
 
 项目实际运行截图：
 
-![文档首页](https://docs.panws.top/image.png)
+![文档首页](https://astro-vitepress.newmt.fun/image.png)
 
 ## 许可证
 
 MIT License
 
 GitHub：[github.com/scenlinx/astro-vitepress](https://github.com/scenlinx/astro-vitepress)  
-在线演示：[docs.panws.top](https://docs.panws.top)
+在线演示：[astro-vitepress.newmt.fun](https://astro-vitepress.newmt.fun)

@@ -41,7 +41,7 @@ export const navConfig: NavItem[] = [
 ```ts
 export const siteConfig = {
   name: 'Astro-VitePress',
-  url: 'https://docs.panws.top',
+  url: 'https://astro-vitepress.newmt.fun',
   author: 'scenlinx',
   description: '网站描述',
   keywords: '关键词',
